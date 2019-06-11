@@ -1,19 +1,20 @@
 {
   "name": "dog-barks-api",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "RESTful API with Node.js, Express, and PostgreSQL",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "index.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "^4.17.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "pg": "^7.11.0",
-    "sequelize": "^5.8.7"
+    "sequelize": "^5.8.8"
   }
 }
