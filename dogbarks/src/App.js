@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+
+
 import MapContainer from "./containers/mapContainer"
 
 class App extends Component {
@@ -20,7 +22,7 @@ class App extends Component {
   componentDidMount() {
     this.callAPI();
   }
-  
+
 
   render() {
     console.log(this.state.apiResponse);
