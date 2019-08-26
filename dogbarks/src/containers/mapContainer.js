@@ -1,7 +1,6 @@
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 import React, { Component } from "react";
-import ApiKey from '../config.js';
-
+import ApiKey from "../config.js";
 
 class MapContainer extends Component {
   state = {
@@ -26,10 +25,13 @@ class MapContainer extends Component {
     }
   };
   fetchPlaces(mapProps, map) {
-  const {google} = mapProps;
-  const service = new google.maps.places.PlacesService(map);
-  // ...
-}
+    const { google } = mapProps;
+    const service = new google.maps.places.PlacesService(map);
+    // ...
+  }
+
+
+  
 
   render() {
     return (
@@ -37,14 +39,17 @@ class MapContainer extends Component {
         style={{ width: "100%", height: "75%", position: "relative" }}
         zoom={14}
         google={this.props.google}
+
         onClick={this.onMapClicked}
         onReady={this.fetchPlaces}
+
       >
+
         <Marker onClick={this.onMarkerClick} name={"Current location"} />
 
         <InfoWindow
-          marker={this.state.activeMarker}
-
+          onOpen={this.windowHasOpened}
+          onClose={this.windowHasClosed}
           visible={this.state.showingInfoWindow}
         >
           <div>
