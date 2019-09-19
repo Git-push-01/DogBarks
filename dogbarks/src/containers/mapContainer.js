@@ -31,21 +31,22 @@ class MapContainer extends Component {
   }
 
 
-  
+
 
   render() {
     return (
       <Map
         style={{ width: "100%", height: "75%", position: "relative" }}
-        zoom={14}
+        zoom={8}
         google={this.props.google}
+        initialCenter={{ lat: 47.444, lng: -122.176}}
 
         onClick={this.onMapClicked}
         onReady={this.fetchPlaces}
 
       >
 
-        <Marker onClick={this.onMarkerClick} name={"Current location"} />
+        <Marker position={{ lat: 48.00, lng: -122.00}}  />
 
         <InfoWindow
           onOpen={this.windowHasOpened}
