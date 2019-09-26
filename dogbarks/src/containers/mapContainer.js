@@ -1,4 +1,4 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import React, { Component } from "react";
 import ApiKey from "../config.js";
 
@@ -9,15 +9,16 @@ class MapContainer extends Component {
   };
 
   componentDidMount(props) {
-    console.log(this.props.google.maps);
+    console.log(this.state);
+    console.log(this.props);
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
-          loading: false
 
+          loading: false
         });
       },
       () => {
@@ -25,21 +26,28 @@ class MapContainer extends Component {
       }
     );
   }
-
-
+  
 
   render() {
+    console.log(this.state);
+    console.log(this.props);
+
     const { loading, userLocation } = this.state;
     const { google } = this.props;
 
     if (loading) {
       return null;
     }
-    return( <Map zoom={10} google={google} places={this.props.places} initialCenter={userLocation} >
-      <Marker position={userLocation} />
-
+    return (
+      <Map
+        zoom={10}
+        google={google}
+        places={this.props.places}
+        initialCenter={userLocation}
+        >
+        <Marker position={userLocation} />
       </Map>
-    )
+    );
   }
 }
 export default GoogleApiWrapper({
