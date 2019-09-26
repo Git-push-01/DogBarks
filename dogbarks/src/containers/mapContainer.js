@@ -4,61 +4,42 @@ import ApiKey from "../config.js";
 
 class MapContainer extends Component {
   state = {
-    showingInfoWindow: false,
-    activeMarker: {},
-    selectedPlace: {}
+    userLocation: { lat: 32, lng: 32 },
+    loading: true
   };
 
-  onMarkerClick = (props, marker, e) =>
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
+  componentDidMount(props) {
+    console.log(this.props.google.maps);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
 
-  onMapClicked = props => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
-    }
-  };
-  fetchPlaces(mapProps, map) {
-    const { google } = mapProps;
-    const service = new google.maps.places.PlacesService(map);
-    // ...
+        this.setState({
+          userLocation: { lat: latitude, lng: longitude },
+          loading: false
+
+        });
+      },
+      () => {
+        this.setState({ loading: false });
+      }
+    );
   }
 
 
 
-
   render() {
-    return (
-      <Map
-        style={{ width: "100%", height: "75%", position: "relative" }}
-        zoom={8}
-        google={this.props.google}
-        initialCenter={{ lat: 47.444, lng: -122.176}}
+    const { loading, userLocation } = this.state;
+    const { google } = this.props;
 
-        onClick={this.onMapClicked}
-        onReady={this.fetchPlaces}
+    if (loading) {
+      return null;
+    }
+    return( <Map zoom={10} google={google} places={this.props.places} initialCenter={userLocation} >
+      <Marker position={userLocation} />
 
-      >
-
-        <Marker position={{ lat: 48.00, lng: -122.00}}  />
-
-        <InfoWindow
-          onOpen={this.windowHasOpened}
-          onClose={this.windowHasClosed}
-          visible={this.state.showingInfoWindow}
-        >
-          <div>
-            <h1>{this.state.selectedPlace.name}</h1>
-          </div>
-        </InfoWindow>
       </Map>
-    );
+    )
   }
 }
 export default GoogleApiWrapper({
