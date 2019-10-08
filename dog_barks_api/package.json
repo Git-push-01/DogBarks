@@ -11,10 +11,12 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.17.1",
+    "express-generator": "^4.16.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
+    "passport-jwt": "^4.0.0",
     "pg": "^7.11.0",
-    "sequelize": "^5.14.0"
+    "sequelize": "^5.19.4"
   }
 }
