@@ -26,7 +26,6 @@ class MapContainer extends Component {
       }
     );
   }
-  
 
   render() {
     console.log(this.state);
@@ -44,7 +43,7 @@ class MapContainer extends Component {
         google={google}
         places={this.props.places}
         initialCenter={userLocation}
-        >
+      >
         <Marker position={userLocation} />
       </Map>
     );
