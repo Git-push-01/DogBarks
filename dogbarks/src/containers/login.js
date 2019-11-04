@@ -1,62 +1,120 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "./Login.css";
+import { withRouter } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
+function validate(email, password) {
+  // true means invalid, so our conditions got reversed
+  return {
+    email: email.length === 0,
+    password: password.length === 0
+  };
+}
+
+class Login extends Component {
+  constructor() {
+    super();
 
     this.state = {
       email: "",
       password: ""
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+  onChange(e) {}
+
+  onSubmit(e) {
+    e.preventDefault();
   }
 
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
+  canBeSubmitted() {
+    const errors = validate(this.state.email, this.state.password);
+    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    return !isDisabled;
   }
 
   render() {
+    console.log(this.state);
+    const errors = validate(this.state.email, this.state.password);
+    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const { email, password } = this.state;
+
     return (
-      <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
+      <div>
+        
+
+        <Form
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            padding: 10 + "px"
+          }}
+          className="login"
+          onSubmit={this.onSubmit}
+        >
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              className={errors.email ? "error" : ""}
+              onChange={this.onChange}
+              name="email"
+              id="email"
+              type="text"
+              value={email}
+              placeholder="Enter email"
             />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              className={errors.password ? "error" : ""}
+              onChange={this.onChange}
+              name="password"
+              id="password"
               type="password"
+              value={password}
+              placeholder="Password"
             />
-          </FormGroup>
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
+          </Form.Group>
+
+          <div
+            style={{
+              left: 2,
+              fontSize: "32px",
+              position: "relative",
+              top: 23
+            }}
           >
-            Login
-          </Button>
-        </form>
+            <Button
+              disabled={isDisabled}
+              className="submit-btn"
+              role="button"
+              type="submit"
+            >
+              Log In
+            </Button>
+
+            <a
+              href="/signup"
+              text-align="center"
+              className="btn btn-info"
+              role="button"
+            >
+              Sign Up
+            </a>
+          </div>
+        </Form>
       </div>
     );
   }
 }
+
+export default withRouter(Login);
