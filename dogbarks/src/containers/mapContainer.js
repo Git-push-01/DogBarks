@@ -1,6 +1,8 @@
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import React, { Component } from "react";
 import ApiKey from "../config.js";
+import { withRouter } from "react-router-dom";
+
 
 class MapContainer extends Component {
   state = {
@@ -39,6 +41,7 @@ class MapContainer extends Component {
     }
     return (
       <Map
+        style={{width: '50%', height: '50%', position: 'relative'}}
         zoom={10}
         google={google}
         places={this.props.places}
