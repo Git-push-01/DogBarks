@@ -20,14 +20,30 @@ class Login extends Component {
       password: ""
     };
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+     this.onSubmit = this.onSubmit.bind(this);
+     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {}
+  onChange(e) {
+     const field = e.target.name;
+     let state = this.state;
+
+     state[field] = e.target.value;
+
+     this.setState(state);
+  }
+
 
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
+    // const user = this.state;
+    // this.props.loginUser(user, () =>
+    //   this.props.history.push("/mapContainer")
+    // );
+    // this.setState({
+    //   email: "",
+    //   password: ""
+    // });
   }
 
   canBeSubmitted() {
@@ -44,7 +60,7 @@ class Login extends Component {
 
     return (
       <div>
-        
+
 
         <Form
           style={{

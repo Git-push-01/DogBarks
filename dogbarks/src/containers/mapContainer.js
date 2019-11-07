@@ -1,57 +1,58 @@
-import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
-import React, { Component } from "react";
-import ApiKey from "../config.js";
+// import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
+import React, { useState } from "react"
 import { withRouter } from "react-router-dom";
+import MapGL, {GeolocateControl } from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import config from '../config';
+
+const TOKEN=config.REACT_APP_TOKEN
 
 
-class MapContainer extends Component {
-  state = {
-    userLocation: { lat: 32, lng: 32 },
-    loading: true
-  };
+const geolocateStyle = {
+  float: 'left',
+  margin: '50px',
+  padding: '10px'
+};
 
-  componentDidMount(props) {
-    console.log(this.state);
-    console.log(this.props);
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
+const MapContainer = () => {
 
-        this.setState({
-          userLocation: { lat: latitude, lng: longitude },
 
-          loading: false
-        });
-      },
-      () => {
-        this.setState({ loading: false });
-      }
-    );
-  }
 
-  render() {
-    console.log(this.state);
-    console.log(this.props);
 
-    const { loading, userLocation } = this.state;
-    const { google } = this.props;
 
-    if (loading) {
-      return null;
-    }
-    return (
-      <Map
-        style={{width: '50%', height: '50%', position: 'relative'}}
-        zoom={10}
-        google={google}
-        places={this.props.places}
-        initialCenter={userLocation}
+
+
+  const [viewport, setViewPort ] = useState({
+    width: "50%",
+    height: 900,
+    latitude: 0,
+    longitude: 0,
+    zoom: 3
+  })
+
+  const _onViewportChange = viewport => setViewPort({...viewport, transitionDuration: 3000 })
+
+  return(
+<div id='map' ><div style={{ margin: '0 auto'}}>
+      <h1 style={{textAlign: 'center', fontSize: '25px', fontWeight: 'bolder' }}>GeoLocator: Click To Find Your Location or click <a href="/search">here</a> to search for a location</h1>
+      <MapGL
+        {...viewport}
+        mapboxApiAccessToken={TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+        onViewportChange={_onViewportChange}
       >
-        <Marker position={userLocation} />
-      </Map>
-    );
-  }
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+        />
+      </MapGL>
+    </div></div>
+)
+
 }
-export default GoogleApiWrapper({
-  apiKey: ApiKey
-})(MapContainer);
+
+
+
+
+export default withRouter(MapContainer)
