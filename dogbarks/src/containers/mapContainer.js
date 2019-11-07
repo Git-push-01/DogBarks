@@ -24,16 +24,16 @@ const MapContainer = () => {
 
   const [viewport, setViewPort ] = useState({
     width: "50%",
-    height: 900,
+    height: 450,
     latitude: 0,
     longitude: 0,
     zoom: 3
   })
 
-  const _onViewportChange = viewport => setViewPort({...viewport, transitionDuration: 3000 })
+  const _onViewportChange = viewport => setViewPort({...viewport, transitionDuration: 1000 })
 
   return(
-<div id='map' ><div style={{ margin: '0 auto'}}>
+<div  ><div style={{ margin: '0 auto'}}>
       <h1 style={{textAlign: 'center', fontSize: '25px', fontWeight: 'bolder' }}>GeoLocator: Click To Find Your Location or click <a href="/search">here</a> to search for a location</h1>
       <MapGL
         {...viewport}
