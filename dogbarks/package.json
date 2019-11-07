@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "google-maps-react": "^2.0.2",
+    "mapbox-gl": "^1.5.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^16.8.6",
     "react-google-maps": "^9.4.5",
+    "react-map-gl": "^5.1.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
