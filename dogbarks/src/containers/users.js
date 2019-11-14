@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
-
-
-
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -21,21 +18,17 @@ class Users extends Component {
     this.callAPI();
   }
 
-
   render() {
     console.log(this.state.apiResponse);
 
     return (
       <div className="Users">
         <header className="Users-header">
-
           <p className="Users-intro">{this.state.apiResponse}</p>
         </header>
-
       </div>
     );
   }
 }
-
 
 export default withRouter(Users);

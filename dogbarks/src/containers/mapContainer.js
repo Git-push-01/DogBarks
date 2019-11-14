@@ -1,6 +1,6 @@
 // import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import React, { Component } from "react";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css"
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { withRouter } from "react-router-dom";
 import MapGL from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -9,8 +9,6 @@ import config from "../config";
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 
 const TOKEN = config.REACT_APP_TOKEN;
-
-
 
 class MapContainer extends Component {
   state = {
@@ -53,7 +51,6 @@ class MapContainer extends Component {
   };
 
   render() {
-
     const { viewport, searchResultLayer } = this.state;
     return (
       <div style={{ height: "100vh" }}>
@@ -63,14 +60,16 @@ class MapContainer extends Component {
             fontSize: "25px",
             fontWeight: "bolder"
           }}
-        >Use the search bar to find a location or click <a href="/">here</a> to find your location
+        >
+          Use the search bar to find a location or click <a href="/">here</a> to
+          find your location
         </h1>
         <MapGL
           ref={this.mapRef}
           {...viewport}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           width="100%"
-          height= "70%"
+          height="70%"
           onViewportChange={this.handleViewportChange}
           mapboxApiAccessToken={TOKEN}
         >
@@ -79,18 +78,13 @@ class MapContainer extends Component {
             onResult={this.handleOnResult}
             onViewportChange={this.handleGeocoderViewportChange}
             mapboxApiAccessToken={TOKEN}
-              showUserLocation={true}
+            showUserLocation={true}
             position="top-left"
           />
         </MapGL>
-
-
-
       </div>
     );
   }
 }
-
-
 
 export default withRouter(MapContainer);
