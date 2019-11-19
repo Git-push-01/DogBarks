@@ -1,6 +1,6 @@
 /* global document */
 import GL from '@luma.gl/constants';
-import {Texture2D, readPixelsToBuffer} from '@luma.gl/core';
+import {Texture2D, copyToTexture, cloneTextureFrom} from '@luma.gl/core';
 import {loadImage} from '@loaders.gl/images';
 import {createIterable} from '@deck.gl/core';
 
@@ -19,7 +19,7 @@ function nextPowOfTwo(number) {
   return Math.pow(2, Math.ceil(Math.log2(number)));
 }
 
-// resize image to given width and height
+// update comment to create a new texture and copy original data.
 function resizeImage(ctx, imageData, width, height) {
   const {naturalWidth, naturalHeight} = imageData;
   if (width === naturalWidth && height === naturalHeight) {
@@ -41,6 +41,22 @@ function getIconId(icon) {
   return icon && (icon.id || icon.url);
 }
 
+// resize texture without losing original data
+function resizeTexture(gl, texture, width, height) {
+  const oldWidth = texture.width;
+  const oldHeight = texture.height;
+
+  const newTexture = cloneTextureFrom(texture, {width, height});
+  copyToTexture(texture, newTexture, {
+    targetY: height - oldHeight,
+    width: oldWidth,
+    height: oldHeight
+  });
+
+  texture.delete();
+  return newTexture;
+}
+
 // traverse icons in a row of icon atlas
 // extend each icon with left-top coordinates
 function buildRowMapping(mapping, columns, yOffset) {
@@ -54,43 +70,26 @@ function buildRowMapping(mapping, columns, yOffset) {
   }
 }
 
-// resize texture without losing original data
-function resizeTexture(texture, width, height) {
-  const oldWidth = texture.width;
-  const oldHeight = texture.height;
-  const oldPixels = readPixelsToBuffer(texture, {});
-
-  texture.resize({width, height});
-
-  texture.setSubImageData({
-    data: oldPixels,
-    x: 0,
-    y: height - oldHeight,
-    width: oldWidth,
-    height: oldHeight,
-    parameters: DEFAULT_TEXTURE_PARAMETERS
-  });
-
-  texture.generateMipmap();
-
-  oldPixels.delete();
-  return texture;
-}
-
 /**
  * Generate coordinate mapping to retrieve icon left-top position from an icon atlas
  * @param icons {Array<Object>} list of icons, each icon requires url, width, height
  * @param buffer {Number} add buffer to the right and bottom side of the image
  * @param xOffset {Number} right position of last icon in old mapping
  * @param yOffset {Number} top position in last icon in old mapping
+ * @param rowHeight {Number} rowHeight of the last icon's row
  * @param canvasWidth {Number} max width of canvas
  * @param mapping {object} old mapping
  * @returns {{mapping: {'/icon/1': {url, width, height, ...}},, canvasHeight: {Number}}}
  */
-export function buildMapping({icons, buffer, mapping = {}, xOffset = 0, yOffset = 0, canvasWidth}) {
-  // height of current row
-  let rowHeight = 0;
-
+export function buildMapping({
+  icons,
+  buffer,
+  mapping = {},
+  xOffset = 0,
+  yOffset = 0,
+  rowHeight = 0,
+  canvasWidth
+}) {
   let columns = [];
   // Strategy to layout all the icons into a texture:
   // traverse the icons sequentially, layout the icons from left to right, top to bottom
@@ -132,6 +131,7 @@ export function buildMapping({icons, buffer, mapping = {}, xOffset = 0, yOffset 
 
   return {
     mapping,
+    rowHeight,
     xOffset,
     yOffset,
     canvasWidth,
@@ -192,6 +192,7 @@ export default class IconManager {
     this._xOffset = 0;
     // top position of last icon
     this._yOffset = 0;
+    this._rowHeight = 0;
     this._buffer = DEFAULT_BUFFER;
     this._canvasWidth = DEFAULT_CANVAS_WIDTH;
     this._canvasHeight = 0;
@@ -262,15 +263,17 @@ export default class IconManager {
 
     if (icons.length > 0) {
       // generate icon mapping
-      const {mapping, xOffset, yOffset, canvasHeight} = buildMapping({
+      const {mapping, xOffset, yOffset, rowHeight, canvasHeight} = buildMapping({
         icons,
         buffer: this._buffer,
         canvasWidth: this._canvasWidth,
         mapping: this._mapping,
+        rowHeight: this._rowHeight,
         xOffset: this._xOffset,
         yOffset: this._yOffset
       });
 
+      this._rowHeight = rowHeight;
       this._mapping = mapping;
       this._xOffset = xOffset;
       this._yOffset = yOffset;
@@ -286,7 +289,12 @@ export default class IconManager {
       }
 
       if (this._texture.height !== this._canvasHeight) {
-        resizeTexture(this._texture, this._canvasWidth, this._canvasHeight);
+        this._texture = resizeTexture(
+          this.gl,
+          this._texture,
+          this._canvasWidth,
+          this._canvasHeight
+        );
       }
 
       this.onUpdate();
