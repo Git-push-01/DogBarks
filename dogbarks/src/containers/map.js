@@ -39,7 +39,7 @@ const Map = () => {
           positionOptions={{enableHighAccuracy: true}}
           trackUserLocation={true}
           showUserLocation={true}
-          
+
         />
       </ReactMapGL>
     </div>

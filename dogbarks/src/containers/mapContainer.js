@@ -70,7 +70,7 @@ class MapContainer extends Component {
           mapStyle="mapbox://styles/mapbox/streets-v11"
           width="100%"
           height="70%"
-          onViewportChange={this.handleViewportChange}
+          onViewportChange={this.props.handleViewportChange}
           mapboxApiAccessToken={TOKEN}
         >
           <Geocoder
