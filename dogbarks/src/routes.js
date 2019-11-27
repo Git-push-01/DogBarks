@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./containers/login";
-import Users from "./containers/users";
+
 import Signup from "./containers/signup";
 import Map from "./containers/map";
 import MapContainer from "./containers/mapContainer";
@@ -16,6 +16,6 @@ export default (
 
       <Route exact path="/mapContainer" component={MapContainer} />
     </Switch>
-    <Route path="/users" exact component={Users} />
+  
   </BrowserRouter>
 );
