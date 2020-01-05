@@ -67,9 +67,9 @@ pool.on('remove', () => {
 });
 
 module.exports = {
-  createReflectionTable,
+  
   createUserTable,
-  dropReflectionTable,
+
   dropUserTable
 };
 

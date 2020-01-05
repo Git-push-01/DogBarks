@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { withRouter } from "react-router-dom";
-import MapGL from "react-map-gl";
+import ReactMapGL from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import config from "../config";
@@ -54,7 +54,7 @@ class MapContainer extends Component {
   };
 
 
-  
+
 
   mapRef = React.createRef();
 
@@ -91,7 +91,7 @@ class MapContainer extends Component {
   render() {
     const { viewport, searchResultLayer } = this.state;
     return (
-      <div style={{ height: "100vh" }}>
+      <div style={{ height: "50vh" }}>
         <h1
           style={{
             textAlign: "center",
@@ -102,20 +102,12 @@ class MapContainer extends Component {
           Use the search bar to find a location or click <a href="/">here</a> to
           find your location
         </h1>
-        <DeckGL
-          initialViewState={{
-            longitude: -74.006,
-            latitude: 40.7128,
-            zoom: 15
-          }}
-          controller={true}
-          layers={layer} // layer here
-        >
-        <MapGL
+
+        <ReactMapGL
           ref={this.mapRef}
           {...viewport}
           mapStyle="mapbox://styles/mapbox/streets-v11"
-          width="100%"
+          width="70%"
           height="70%"
           onViewportChange={this.props.handleViewportChange}
           mapboxApiAccessToken={TOKEN}
@@ -128,8 +120,8 @@ class MapContainer extends Component {
             showUserLocation={true}
             position="top-left"
           />
-        </MapGL>
-          </DeckGL>
+        </ReactMapGL>
+
       </div>
     );
   }

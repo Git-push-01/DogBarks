@@ -1,8 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import 'babel-polyfill';
-
-
 import UserWithDb from './src/usingDB/controller/Users';
 import Auth from './src/usingDB/middleware/Auth';
 

@@ -3,11 +3,9 @@ import ReactMapGL, { GeolocateControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import DeckGL from "deck.gl";
-import { PathLayer } from "@deck.gl/layers";
-import MapGL, { Marker } from "react-map-gl";
+// import { PathLayer } from "@deck.gl/layers";
 
 const TOKEN = config.REACT_APP_TOKEN;
-
 
 const geolocateStyle = {
   position: "absolute",
@@ -15,38 +13,27 @@ const geolocateStyle = {
   left: 0,
   margin: 10
 };
-const data = [
-  {
-    name: "random-name",
-    color: [101, 147, 245],
-    path: [
-      [-74.00578, 40.713067],
-      [-74.004577, 40.712425],
-      [-74.003626, 40.71365],
-      [-74.002666, 40.714243],
-      [-74.002136, 40.715177],
-      [-73.998493, 40.713452],
-      [-73.997981, 40.713673],
-      [-73.997586, 40.713448],
-      [-73.99256, 40.713863]
-    ]
-  }
-];
+// const data = [
+//   {
+//     name: "random-name",
+//     color: [101, 147, 245],
+//     path: []
+//   }
+// ];
 
 const Map = () => {
   const layer = [
-    new PathLayer({
-      id: "path-layer",
-      data,
-      getWidth: data => 7,
-      getColor: data => data.color,
-      widthMinPixels: 7
-    })
+    // new PathLayer({
+    //   id: "path-layer",
+    //   data,
+    //   getWidth: data => 7,
+    //   getColor: data => data.color,
+    //   widthMinPixels: 7
+    // })
   ];
 
   const [viewport, setViewPort] = useState({
-    width: "100%",
-    height: 450,
+
     latitude: 0,
     longitude: 0,
     zoom: 2
@@ -67,13 +54,19 @@ const Map = () => {
         initialViewState={{
           longitude: -74.006,
           latitude: 40.7128,
-          zoom: 15
+          zoom: 12,
+
         }}
+
+        height="70%"
+        width="75%"
         controller={true}
-        layers={layer} // layer here
+        layers={layer}
+        {...viewport}// layer here
+
       >
         <ReactMapGL
-          {...viewport}
+
           mapboxApiAccessToken={TOKEN}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={_onViewportChange}

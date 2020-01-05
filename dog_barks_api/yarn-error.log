@@ -1,0 +1,62 @@
+Arguments: 
+  /Users/hugoescandon/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.19.2/libexec/bin/yarn.js add esm / npm install esm
+
+PATH: 
+  /Users/hugoescandon/.nvm/versions/node/v8.12.0/bin:/Users/hugoescandon/.rvm/gems/ruby-2.6.1/bin:/Users/hugoescandon/.rvm/gems/ruby-2.6.1@global/bin:/Users/hugoescandon/.rvm/rubies/ruby-2.6.1/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/hugoescandon/.rvm/gems/ruby-2.6.1/bin:/Users/hugoescandon/.rvm/gems/ruby-2.6.1@global/bin:/Users/hugoescandon/.rvm/rubies/ruby-2.6.1/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Users/hugoescandon/.rvm/bin
+
+Yarn version: 
+  1.19.2
+
+Node version: 
+  8.12.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, scandir '/.DocumentRevisions-V100'
+
+npm manifest: 
+  {
+    "name": "dog-barks-api",
+    "version": "1.0.0",
+    "description": "RESTful API with Node.js, Express, and PostgreSQL",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "babel server.js --out-dir build",
+      "dev-start": "babel-watch server.js"
+    },
+    "dependencies": {
+      "bcrypt": "^3.0.7",
+      "cookie-parser": "~1.4.4",
+      "cors": "^2.8.5",
+      "debug": "~2.6.9",
+      "dotenv": "^8.2.0",
+      "esm": "^3.2.25",
+      "express": "^4.17.1",
+      "express-generator": "^4.16.0",
+      "http-errors": "~1.6.3",
+      "jade": "~1.11.0",
+      "jsonwebtoken": "^8.5.1",
+      "moment": "^2.24.0",
+      "morgan": "~1.9.1",
+      "passport-jwt": "^4.0.0",
+      "pg": "^7.14.0",
+      "sequelize": "^5.19.4",
+      "uuid": "^3.3.3"
+    },
+    "devDependencies": {
+      "babel-cli": "^6.26.0",
+      "babel-preset-env": "^1.7.0",
+      "babel-watch": "^7.0.0",
+      "make-runnable": "^1.3.6",
+      "babel-polyfill": "^6.26.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
