@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/api/v1/users', UserWithDb.create);
+app.post('/api/v1/users/signup', UserWithDb.create);
 app.post('/api/v1/users/login',UserWithDb.login);
 app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
 
