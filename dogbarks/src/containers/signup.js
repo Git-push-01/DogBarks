@@ -7,10 +7,10 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 
-function validate(name, email, password) {
+function validate(email, password) {
   // true means invalid, so our conditions got reversed
   return {
-    name: name.length === 0,
+
     email: email.length === 0,
     password: password.length === 0
   };
@@ -21,7 +21,6 @@ class Signup extends Component {
     super();
 
     this.state = {
-      name: "",
       email: "",
       password: ""
     };
@@ -31,7 +30,7 @@ class Signup extends Component {
   }
 
   onChange(e) {
-    const field = e.target.name;
+    const field = e.target.email;
     let state = this.state;
 
     state[field] = e.target.value;
@@ -47,7 +46,6 @@ class Signup extends Component {
 
   canBeSubmitted() {
     const errors = validate(
-      this.state.name,
       this.state.email,
       this.state.password
 
@@ -58,13 +56,13 @@ class Signup extends Component {
 
   render() {
     const errors = validate(
-      this.state.name,
+
       this.state.email,
       this.state.password
 
     );
     const isDisabled = Object.keys(errors).some(x => errors[x]);
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -79,19 +77,6 @@ class Signup extends Component {
           className="signup"
           onSubmit={this.onSubmit}
         >
-          <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              className={errors.name ? "error" : ""}
-              onChange={this.onChange}
-              name="name"
-              id="name"
-              type="text"
-              value={name}
-              placeholder="Enter Name"
-            />
-          </Form.Group>
-
           <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
