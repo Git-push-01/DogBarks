@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3000/api/v1'
+const baseUrl = 'http://localhost:3000/api/v1/users'
 
 export const loginUser = (user, callback) => {
   let data = {
@@ -71,7 +71,7 @@ export const deleteUser = id => {
   }
 
   return dispatch => {
-    fetch(`${ baseUrl }/users/me`, data)
+    fetch(`${ baseUrl }/me`, data)
       .then(response => response.json())
       .then(user => dispatch({
         type: 'DELETE_USER',

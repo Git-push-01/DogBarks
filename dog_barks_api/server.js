@@ -9,6 +9,8 @@ dotenv.config();
 const app = express()
 
 app.use(express.json())
+var cors = require('cors');
+app.use(cors());
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'YAY! Congratulations! Your first endpoint is working'});
@@ -16,7 +18,7 @@ app.get('/', (req, res) => {
 
 
 app.post('/api/v1/users/signup', UserWithDb.create);
-app.post('/api/v1/users/login',UserWithDb.login);
+app.post('/api/v1/users/login', UserWithDb.login);
 app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
 
 app.listen(3000)

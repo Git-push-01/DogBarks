@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
+import { bindActionCreators } from "redux";
 import Button from "react-bootstrap/Button";
-
-
+import { connect } from "react-redux";
+import { signupUser } from "../redux/actions/userActions";
 import Form from "react-bootstrap/Form";
 
 
@@ -30,7 +30,7 @@ class Signup extends Component {
   }
 
   onChange(e) {
-    const field = e.target.email;
+    const field = e.target.name;
     let state = this.state;
 
     state[field] = e.target.value;
@@ -40,30 +40,26 @@ class Signup extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    // const user = this.state;
-    // this.props.signupUser(user, () => this.props.history.push("/login"));
+   const user = this.state;
+   this.props.signupUser(user, () => this.props.history.push("/login"));
+   this.setState({
+     email: "",
+     password: ""
+   });
   }
 
   canBeSubmitted() {
-    const errors = validate(
-      this.state.email,
-      this.state.password
-
-    );
+    const errors = validate(this.state.email, this.state.password);
     const isDisabled = Object.keys(errors).some(x => errors[x]);
     return !isDisabled;
   }
 
   render() {
-    const errors = validate(
-
-      this.state.email,
-      this.state.password
-
-    );
+    console.log(this.state);
+    const errors = validate(this.state.email, this.state.password);
     const isDisabled = Object.keys(errors).some(x => errors[x]);
     const { email, password } = this.state;
-    console.log(this.state);
+
     return (
       <div>
 
@@ -128,4 +124,17 @@ class Signup extends Component {
 }
 
 
-export default withRouter(Signup)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      signupUser
+    },
+    dispatch
+  );
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(Signup)
+);

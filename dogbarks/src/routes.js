@@ -11,11 +11,11 @@ export default (
   <BrowserRouter>
     <Route path="/login" exact component={Login} />
     <Route path="/signup" exact component={Signup} />
-    <Switch>
-      <Route exact path="/" component={Map} />
+
+      <Route exact path="/map" component={Map} />
 
       <Route exact path="/mapContainer" component={MapContainer} />
-    </Switch>
-  
+    
+
   </BrowserRouter>
 );

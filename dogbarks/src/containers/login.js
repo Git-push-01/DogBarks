@@ -38,14 +38,14 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // const user = this.state;
-    // this.props.loginUser(user, () =>
-    //   this.props.history.push("/mapContainer")
-    // );
-    // this.setState({
-    //   email: "",
-    //   password: ""
-    // });
+     const user = this.state;
+    this.props.loginUser(user, () =>
+       this.props.history.push("/map")
+     );
+     this.setState({
+       email: "",
+       password: ""
+     });
   }
 
   canBeSubmitted() {
