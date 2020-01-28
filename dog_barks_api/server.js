@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import 'babel-polyfill';
 import UserWithDb from './src/usingDB/controller/User';
 import Auth from './src/usingDB/middleware/Auth';
-
+// const bodyParser = require('body-parser');
 dotenv.config();
 
 const app = express()
-
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 var cors = require('cors');
 app.use(cors());

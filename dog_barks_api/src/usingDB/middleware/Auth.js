@@ -2,13 +2,13 @@ import jwt from 'jsonwebtoken';
 import db from '../db';
 
 const Auth = {
-  // /**
-  //  * Verify Token
-  //  * @param {object} req
-  //  * @param {object} res
-  //  * @param {object} next
-  //  * @returns {object|void} response object
-  //  */
+  /**
+   * Verify Token
+   * @param {object} req
+   * @param {object} res
+   * @param {object} next
+   * @returns {object|void} response object
+   */
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if(!token) {

@@ -4,15 +4,15 @@ import db from '../db';
 import Helper from './Helper';
 
 const User = {
-  // /**
-  //  * Create A User
-  //  * @param {object} req
-  //  * @param {object} res
-  //  * @returns {object} reflection object
-  //  */
+  /**
+   * Create A User
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} reflection object
+   */
   async create(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.status(400).send({'message': 'Some values are missing'});
+      return res.status(400).send({'message': 'Some values 1 are missing'});
     }
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -42,15 +42,15 @@ const User = {
       return res.status(400).send(error);
     }
   },
-  // /**
-  //  * Login
-  //  * @param {object} req
-  //  * @param {object} res
-  //  * @returns {object} user object
-  //  */
+  /**
+   * Login
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user object
+   */
   async login(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.status(400).send({'message': 'Some values are missing'});
+      return res.status(400).send({'message': 'Some values 2 are missing'});
     }
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -70,12 +70,12 @@ const User = {
       return res.status(400).send(error)
     }
   },
-  // /**
-  //  * Delete A User
-  //  * @param {object} req
-  //  * @param {object} res
-  //  * @returns {void} return status code 204
-  //  */
+  /**
+   * Delete A User
+   * @param {object} req
+   * @param {object} res
+   * @returns {void} return status code 204
+   */
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
     try {

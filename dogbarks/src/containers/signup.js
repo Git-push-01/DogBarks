@@ -42,7 +42,7 @@ class Signup extends Component {
 
    const user = this.state;
    this.props.signupUser(user, () => this.props.history.push("/login"));
-   this.setState({
+    this.setState({
      email: "",
      password: ""
    });

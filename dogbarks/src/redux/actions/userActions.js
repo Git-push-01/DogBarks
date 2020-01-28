@@ -1,17 +1,17 @@
 // const baseUrl = 'http://localhost:3000/api/v1/users'
-const axios = require('axios')
-export const loginUser = (user, callback) => {
+// const axios = require('axios')
+export const loginUser = (user) => {
   let data = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ user })
+    body: JSON.stringify( user )
   }
 
   return dispatch => {
-  return  axios.post("http://localhost:3000/api/v1/users/login", data)
+     fetch(`http://localhost:3000/api/v1/users/login`, data)
       .then((response) => {
     if(!response.ok) throw new Error(response.status);
     else return response.json();
@@ -24,7 +24,7 @@ export const loginUser = (user, callback) => {
           payload: user.current
         })
 
-        callback()
+        // callback()
       })
       .catch((error) => alert('Invalid Email or Password'));
 
@@ -32,18 +32,18 @@ export const loginUser = (user, callback) => {
   }
 }
 
-export const signupUser = (user, callback) => {
+export const signupUser = (user) => {
   let data = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ user })
+    body: JSON.stringify( user )
   }
 
   return dispatch => {
-    return axios.post("http://localhost:3000/api/v1/users/signup", data)
+     fetch(`http://localhost:3000/api/v1/users/signup`, data)
       .then(response => response.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
@@ -53,7 +53,7 @@ export const signupUser = (user, callback) => {
           payload: user.current
         })
 
-        callback()
+        // callback()
       })
       .catch(err => err)
   }
@@ -71,7 +71,7 @@ export const deleteUser = id => {
   }
 
   return dispatch => {
-    return axios.delete("http://localhost:3000/api/v1/users/me", data)
+      fetch(`http://localhost:3000/api/v1/users/me`, data)
       .then(response => response.json())
       .then(user => dispatch({
         type: 'DELETE_USER',
