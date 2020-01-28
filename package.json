@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "deck.gl": "^7.3.6",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.5.0",
+    "react-axios": "^2.0.3",
     "react-map-gl": "^5.1.2",
     "react-map-gl-geocoder": "^2.0.11",
     "react-places-autocomplete": "^7.2.1",

@@ -1,5 +1,5 @@
-const baseUrl = 'http://localhost:3000/api/v1/users'
-
+// const baseUrl = 'http://localhost:3000/api/v1/users'
+const axios = require('axios')
 export const loginUser = (user, callback) => {
   let data = {
     method: 'POST',
@@ -11,7 +11,7 @@ export const loginUser = (user, callback) => {
   }
 
   return dispatch => {
-    fetch(`${ baseUrl }/login`, data)
+  return  axios.post("http://localhost:3000/api/v1/users/login", data)
       .then((response) => {
     if(!response.ok) throw new Error(response.status);
     else return response.json();
@@ -43,7 +43,7 @@ export const signupUser = (user, callback) => {
   }
 
   return dispatch => {
-    fetch(`${ baseUrl }/signup`, data)
+    return axios.post("http://localhost:3000/api/v1/users/signup", data)
       .then(response => response.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
@@ -71,7 +71,7 @@ export const deleteUser = id => {
   }
 
   return dispatch => {
-    fetch(`${ baseUrl }/me`, data)
+    return axios.delete("http://localhost:3000/api/v1/users/me", data)
       .then(response => response.json())
       .then(user => dispatch({
         type: 'DELETE_USER',
