@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ReactMapGL, { GeolocateControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
-import DeckGL from "deck.gl";
+import DeckGL, {FlyToInterpolator}  from "deck.gl";
+import { withRouter } from "react-router-dom";
 // import { PathLayer } from "@deck.gl/layers";
 
 const TOKEN = config.REACT_APP_TOKEN;
@@ -36,7 +37,8 @@ const Map = () => {
 
     latitude: 0,
     longitude: 0,
-    zoom: 2
+    zoom: 2,
+
   });
 
   const _onViewportChange = viewport =>
@@ -44,32 +46,34 @@ const Map = () => {
 
   return (
     <div style={{ margin: "0 auto" }}>
+
       <h1
         style={{ textAlign: "center", fontSize: "25px", fontWeight: "bolder" }}
       >
         GeoLocator: Click To Find Your Location or click{" "}
         <a href="/mapContainer">here</a> to search for a location
       </h1>
+
+      <div style={{position: "relative"}}>
       <DeckGL
         initialViewState={{
           longitude: -74.006,
           latitude: 40.7128,
           zoom: 12,
-
+          bearing: 0,
+          pitch: 0,
+          transitionInterpolator: new FlyToInterpolator()
         }}
-
-        height="70%"
-        width="75%"
         controller={true}
         layers={layer}
         {...viewport}// layer here
-
-      >
+        >
         <ReactMapGL
-
           mapboxApiAccessToken={TOKEN}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={_onViewportChange}
+          width="70%"
+          height="70%"
         >
           <GeolocateControl
             style={geolocateStyle}
@@ -79,8 +83,10 @@ const Map = () => {
           />
         </ReactMapGL>
       </DeckGL>
-    </div>
+      </div>
+      </div>
+
   );
 };
 
-export default Map;
+export default withRouter(Map);

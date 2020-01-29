@@ -81,7 +81,8 @@ class MapContainer extends Component {
         getFillColor: [255, 0, 0, 128],
         getRadius: 1000,
         pointRadiusMinPixels: 10,
-        pointRadiusMaxPixels: 10
+        pointRadiusMaxPixels: 10,
+
       })
     });
 
@@ -91,7 +92,7 @@ class MapContainer extends Component {
   render() {
     const { viewport, searchResultLayer } = this.state;
     return (
-      <div style={{ height: "50vh" }}>
+      <div style={{ position: "relative"}}>
         <h1
           style={{
             textAlign: "center",
@@ -99,10 +100,10 @@ class MapContainer extends Component {
             fontWeight: "bolder"
           }}
         >
-          Use the search bar to find a location or click <a href="/">here</a> to
+          Use the search bar to find a location or click <a href="/map">here</a> to
           find your location
         </h1>
-
+        <div style={{position: "relative"}}>
         <ReactMapGL
           ref={this.mapRef}
           {...viewport}
@@ -121,6 +122,7 @@ class MapContainer extends Component {
             position="top-left"
           />
         </ReactMapGL>
+        </div>
 
       </div>
     );
