@@ -62,11 +62,13 @@ export const signupUser = (user) => {
 
 
 export const deleteUser = id => {
+let token = JSON.parse(localStorage.getItem('token'));
   let data = {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': token
     }
   }
 
