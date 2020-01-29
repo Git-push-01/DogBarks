@@ -14,32 +14,32 @@ import { PathLayer } from "@deck.gl/layers";
 const TOKEN = config.REACT_APP_TOKEN;
 
 
-const data = [
-  {
-    name: "random-name",
-    color: [101, 147, 245],
-    path: [
-      [-74.00578, 40.713067],
-      [-74.004577, 40.712425],
-      [-74.003626, 40.71365],
-      [-74.002666, 40.714243],
-      [-74.002136, 40.715177],
-      [-73.998493, 40.713452],
-      [-73.997981, 40.713673],
-      [-73.997586, 40.713448],
-      [-73.99256, 40.713863]
-    ]
-  }
-];
-const layer = [
-  new PathLayer({
-    id: "path-layer",
-    data,
-    getWidth: data => 7,
-    getColor: data => data.color,
-    widthMinPixels: 7
-  })
-];
+// const data = [
+//   {
+//     name: "random-name",
+//     color: [101, 147, 245],
+//     path: [
+//       [-74.00578, 40.713067],
+//       [-74.004577, 40.712425],
+//       [-74.003626, 40.71365],
+//       [-74.002666, 40.714243],
+//       [-74.002136, 40.715177],
+//       [-73.998493, 40.713452],
+//       [-73.997981, 40.713673],
+//       [-73.997586, 40.713448],
+//       [-73.99256, 40.713863]
+//     ]
+//   }
+// ];
+// const layer = [
+//   new PathLayer({
+//     id: "path-layer",
+//     data,
+//     getWidth: data => 7,
+//     getColor: data => data.color,
+//     widthMinPixels: 7
+//   })
+// ];
 
 class MapContainer extends Component {
   state = {
@@ -52,9 +52,6 @@ class MapContainer extends Component {
 
 
   };
-
-
-
 
   mapRef = React.createRef();
 
@@ -81,8 +78,7 @@ class MapContainer extends Component {
         getFillColor: [255, 0, 0, 128],
         getRadius: 1000,
         pointRadiusMinPixels: 10,
-        pointRadiusMaxPixels: 10,
-
+        pointRadiusMaxPixels: 10
       })
     });
 
@@ -92,7 +88,7 @@ class MapContainer extends Component {
   render() {
     const { viewport, searchResultLayer } = this.state;
     return (
-      <div style={{ position: "relative"}}>
+      <div style={{ height: "100vh" }}>
         <h1
           style={{
             textAlign: "center",
@@ -103,13 +99,14 @@ class MapContainer extends Component {
           Use the search bar to find a location or click <a href="/map">here</a> to
           find your location
         </h1>
-        <div style={{position: "relative"}}>
+
+
         <ReactMapGL
           ref={this.mapRef}
           {...viewport}
           mapStyle="mapbox://styles/mapbox/streets-v11"
-          width="70%"
-          height="70%"
+          width="100%"
+          height="100%"
           onViewportChange={this.props.handleViewportChange}
           mapboxApiAccessToken={TOKEN}
         >
@@ -122,7 +119,6 @@ class MapContainer extends Component {
             position="top-left"
           />
         </ReactMapGL>
-        </div>
 
       </div>
     );
