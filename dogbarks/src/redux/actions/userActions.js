@@ -17,7 +17,7 @@ export const loginUser = (user) => {
     else return response.json();
   })
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
+        localStorage.setItem('token', user.token)
 
         dispatch({
           type: 'SET_USER',
@@ -46,7 +46,7 @@ export const signupUser = (user) => {
      fetch(`http://localhost:3000/api/v1/users/signup`, data)
       .then(response => response.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
+        localStorage.setItem('token', user.token)
 
         dispatch({
           type: 'SET_USER',
@@ -71,7 +71,7 @@ export const deleteUser = id => {
   }
 
   return dispatch => {
-      fetch(`http://localhost:3000/api/v1/users/me`, data)
+      fetch(`http://localhost:3000/api/v1/users/${ id }`, data)
       .then(response => response.json())
       .then(user => dispatch({
         type: 'DELETE_USER',

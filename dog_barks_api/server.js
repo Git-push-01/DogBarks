@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/v1/users/signup', UserWithDb.create);
 app.post('/api/v1/users/login', UserWithDb.login);
-app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
+app.delete('/api/v1/users/:id', Auth.verifyToken, UserWithDb.delete);
 
 app.listen(3000)
 console.log('app running on port ', 3000);
