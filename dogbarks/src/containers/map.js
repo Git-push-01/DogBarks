@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import ReactMapGL, { GeolocateControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
+import Geocoder from "react-map-gl-geocoder";
 // import DeckGL, {FlyToInterpolator}  from "deck.gl";
 import { withRouter } from "react-router-dom";
-import { PathLayer } from "@deck.gl/layers";
+// import { PathLayer } from "@deck.gl/layers";
 
 const TOKEN = config.REACT_APP_TOKEN;
 
@@ -32,15 +33,17 @@ const Map = () => {
   //   // })
   // ];
 
-  const [viewport, setViewPort] = useState({
+  const [viewport, setViewPort, searchResultLayer] = useState({
 
  width: "100%",
  height: 900,
  latitude: 0,
  longitude: 0,
- zoom: 2
+ zoom: 2,
+ searchResultLayer: null
 
   });
+
 
   const _onViewportChange = viewport =>
     setViewPort({ ...viewport, transitionDuration: 1000 });
@@ -60,7 +63,7 @@ const Map = () => {
           mapboxApiAccessToken={TOKEN}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={_onViewportChange}
-        
+
         >
           <GeolocateControl
             style={geolocateStyle}
