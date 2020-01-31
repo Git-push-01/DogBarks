@@ -3,6 +3,7 @@ import ReactMapGL, { GeolocateControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
+import Button from "react-bootstrap/Button";
 // import DeckGL, {FlyToInterpolator}  from "deck.gl";
 import { withRouter } from "react-router-dom";
 // import { PathLayer } from "@deck.gl/layers";
@@ -56,6 +57,8 @@ const Map = () => {
       >
         GeoLocator: Click To Find Your Location or click{" "}
         <a href="/mapContainer">here</a> to search for a location
+        {" "}
+        <a href="/logout">Log Out</a>
       </h1>
 
         <ReactMapGL

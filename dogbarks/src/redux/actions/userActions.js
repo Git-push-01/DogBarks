@@ -12,11 +12,8 @@ export const loginUser = (user) => {
 
   return dispatch => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
-      .then((response) => {
-    if(!response.ok) throw new Error(response.status);
-    else return response.json();
-  })
-      .then(user => {
+       .then(response => response.json())
+       .then(user => {
         localStorage.setItem('token', user.token)
 
         dispatch({

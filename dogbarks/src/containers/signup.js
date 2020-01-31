@@ -113,9 +113,10 @@ class Signup extends Component {
             >
               Submit
             </Button>
-            <a href="/login" className="btn btn-info" role="button">
+            <Button
+            href="/login" className="btn btn-info" role="button">
               Log In
-            </a>
+            </Button>
           </div>
         </Form>
       </div>

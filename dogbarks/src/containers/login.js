@@ -38,8 +38,10 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-     const user = this.state;
+    const user = this.state;
+
     this.props.loginUser(user, () => this.props.history.push("/map"))
+
 
      this.setState({
        email: "",
@@ -86,7 +88,6 @@ class Login extends Component {
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
-
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -99,7 +100,6 @@ class Login extends Component {
               placeholder="Password"
             />
           </Form.Group>
-
           <div
             style={{
               left: 2,
@@ -117,14 +117,14 @@ class Login extends Component {
               Log In
             </Button>
 
-            <a
+            <Button
               href="/signup"
               text-align="center"
               className="btn btn-info"
               role="button"
             >
               Sign Up
-            </a>
+            </Button>
           </div>
         </Form>
       </div>
