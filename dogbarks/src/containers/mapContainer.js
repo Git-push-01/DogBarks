@@ -99,6 +99,8 @@ class MapContainer extends Component {
         >
           Use the search bar to find a location or click <a href="/map">here</a> to
           find your location
+          {" "}
+          <a href="/logout">Log Out</a>
         </h1>
 
 

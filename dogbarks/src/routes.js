@@ -6,11 +6,15 @@ import MapContainer from "./containers/mapContainer";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 
-const loggedIn = () => !!localStorage["token"];
+const loggedIn = () => {
+  if(sessionStorage["token"]) sessionStorage.setItem("token")
 
+  return <Redirect to="/mapContainer" />
+
+}
 
 const logout = () => {
-  if (localStorage["token"]) localStorage.removeItem("token");
+  if (sessionStorage["token"]) sessionStorage.removeItem("token");
 
   return <Redirect to="/login" />;
 };
@@ -19,12 +23,12 @@ export default (
   <BrowserRouter>
 
   <Switch >
-    <Route path="/login"  component={Login} loggedIn={loggedIn()} />
+    <Route path="/login"  component={Login} loggedIn={() => loggedIn()} />
     <Route path="/signup" exact component={Signup} />
 
-      <Route path="/map" component={Map} loggedIn={loggedIn()}/>
+      <Route path="/map" component={Map} />
 
-      <Route path="/mapContainer" component={MapContainer} loggedIn={loggedIn()} />
+      <Route path="/mapContainer" component={MapContainer}/>
       <Route path="/logout" component={() => logout()} />
 
       </Switch>

@@ -6,6 +6,7 @@ import { loginUser } from "../redux/actions/userActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
   return {
@@ -40,7 +41,9 @@ class Login extends Component {
     e.preventDefault();
     const user = this.state;
 
-    this.props.loginUser(user, () => this.props.history.push("/map"))
+
+
+    this.props.loginUser(user, () => user.history.push("/mapContainer"))
 
 
      this.setState({

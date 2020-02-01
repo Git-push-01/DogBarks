@@ -14,7 +14,7 @@ export const loginUser = (user) => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
        .then(response => response.json())
        .then(user => {
-        localStorage.setItem('token', user.token)
+        sessionStorage.setItem('token', user.token)
 
         dispatch({
           type: 'SET_USER',
@@ -43,7 +43,7 @@ export const signupUser = (user) => {
      fetch(`http://localhost:3000/api/v1/users/signup`, data)
       .then(response => response.json())
       .then(user => {
-        localStorage.setItem('token', user.token)
+        sessionStorage.setItem('token', user.token)
 
         dispatch({
           type: 'SET_USER',
@@ -59,7 +59,7 @@ export const signupUser = (user) => {
 
 
 export const deleteUser = id => {
-let token = JSON.parse(localStorage.getItem('token'));
+let token = JSON.parse(sessionStorage.getItem('token'));
   let data = {
     method: 'DELETE',
     headers: {

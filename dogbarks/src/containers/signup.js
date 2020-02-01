@@ -7,6 +7,7 @@ import { signupUser } from "../redux/actions/userActions";
 import Form from "react-bootstrap/Form";
 
 
+
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
   return {
@@ -40,8 +41,10 @@ class Signup extends Component {
   onSubmit(e) {
     e.preventDefault();
 
+
    const user = this.state;
    this.props.signupUser(user, () => this.props.history.push("/login"));
+
     this.setState({
      email: "",
      password: ""
