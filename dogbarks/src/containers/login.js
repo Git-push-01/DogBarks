@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { push } from 'react-router-redux';
+
 
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
@@ -43,7 +43,9 @@ class Login extends Component {
   const user = this.state;
     console.log(this.state);
 
-   this.props.loginUser(user, push("/mapContainer"))
+   this.props.loginUser(user, () =>
+      this.props.history.push("/MapContainer")
+    );
 
     this.setState({
       email: "",

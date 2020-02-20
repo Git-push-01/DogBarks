@@ -3,14 +3,26 @@ import Login from "./containers/login";
 import Signup from "./containers/signup";
 import Map from "./containers/map";
 import MapContainer from "./containers/mapContainer";
+import { loginUser } from "./redux/actions/userActions";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-const loggedIn = () =>  !!sessionStorage["jwt"];
 
-const logout = () => {
-  if (sessionStorage["jwt"]) sessionStorage.removeItem("jwt");
 
-  return <Redirect to="/login" />;
+ function loggedIn(){
+  if (sessionStorage.token){
+
+      return <Redirect to="/MapContainer" />;
+  }
+
+}
+ function logout(){
+  if (sessionStorage.token){
+
+     return sessionStorage.removeItem("token");
+
+
+
+  }
 };
 
 export default (
@@ -20,12 +32,12 @@ export default (
 
       <Route path="/signup" component={Signup} />
 
-      <Route path="/map" component={Map} loggedIn={loggedIn()} />
+      <Route path="/map" component={Map}  />
 
       <Route
         path="/mapContainer"
         component={MapContainer}
-        loggedIn={loggedIn()}
+
       />
       <Route path="/logout" component={() => logout()} />
     </Switch>
