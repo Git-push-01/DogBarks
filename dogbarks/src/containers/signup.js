@@ -42,8 +42,8 @@ class Signup extends Component {
     e.preventDefault();
 
 
-   const user = this.state;
-   this.props.signupUser(user, () => this.props.history.push("/login"));
+    const user = this.state;
+    this.props.signupUser(user, () => this.props.history.push("/login"));
 
     this.setState({
      email: "",
