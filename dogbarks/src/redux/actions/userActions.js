@@ -1,6 +1,10 @@
 // const baseUrl = 'http://localhost:3000/api/v1/users'
-// const axios = require('axios')
-export const loginUser = (user) => {
+// const axios = require('axios')\
+
+
+export const loginUser = (user, callback) => {
+
+
   let data = {
     method: 'POST',
     headers: {
@@ -12,7 +16,26 @@ export const loginUser = (user) => {
 
   return dispatch => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
-       .then(response => response.json())
+       .then((response) => {
+         if (response.token){
+           this.context.router.history.push("/mapContainer")
+
+           console.log(response.ok);
+
+           console.log("will work");
+
+         }else {
+            this.context.router.history.push("/signup")
+           console.log("wont work");
+
+
+         }
+       })
+
+        .then( response => response.json())
+
+
+
        .then(user => {
         sessionStorage.setItem('token', user.token)
 
@@ -21,9 +44,9 @@ export const loginUser = (user) => {
           payload: user.current
         })
 
-        // callback()
+         callback()
       })
-      .catch((error) => alert('Invalid Email or Password'));
+      .catch(err => err);
 
 
   }
