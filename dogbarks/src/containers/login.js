@@ -42,11 +42,13 @@ class Login extends Component {
 async onSubmit(e) {
      e.preventDefault();
 
-  const token = this.state
+  const user = this.state
+  this.props.loginUser(user)
 
-  if (loginUser(token.token)){
+  if (sessionStorage.token){
 
       this.props.history.push("/mapContainer")
+      
 
 
       console.log("will work")

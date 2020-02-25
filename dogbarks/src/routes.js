@@ -22,7 +22,7 @@ const logout = () => {
 export default (
   <BrowserRouter>
     <Switch>
-      <Route path="/login" component={Login} />
+      <Route path="/login" component={Login} loggedIn={loggedIn()}/>
 
       <Route path="/signup" component={Signup} />
 

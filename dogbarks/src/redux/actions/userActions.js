@@ -14,13 +14,13 @@ export const loginUser = (user) => {
   return dispatch => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
        .then(response => response.json())
-         .then(token => {
-         console.log(token,"user");
-        sessionStorage.setItem('token', token)
+         .then(user => {
+         console.log(user,"user");
+        sessionStorage.setItem('token', user.token)
 
         dispatch({
           type: 'SET_USER',
-          payload: token.current
+          payload: user.current
         })
 
 
