@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import {push} from 'react-router-redux'
 
 
 function validate(email, password) {
@@ -28,7 +30,7 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {
+ onChange(e) {
     const field = e.target.name;
     let state = this.state;
 
@@ -37,21 +39,31 @@ class Login extends Component {
     this.setState(state);
   }
 
-  onSubmit(e) {
+async onSubmit(e) {
+     e.preventDefault();
 
-    e.preventDefault();
-  const user = this.state;
-    console.log(this.state);
+  const token = this.state
 
-   this.props.loginUser(user, () =>
-      this.props.history.push("/MapContainer")
-    );
+  if (loginUser(token.token)){
 
-    this.setState({
-      email: "",
-      password: ""
+      this.props.history.push("/mapContainer")
+
+
+      console.log("will work")
+
+    }else {
+      this.props.history.push("/signup")
+      console.log("wont work")
+
+    }
+
+     this.setState({
+     email: "",
+     password: ""
     });
+
   }
+
 
 
 
@@ -138,6 +150,8 @@ class Login extends Component {
   }
 }
 
+
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -148,7 +162,7 @@ const mapDispatchToProps = dispatch =>
 
 export default withRouter(
   connect(
-    null,
+      null,
     mapDispatchToProps
   )(Login)
 );

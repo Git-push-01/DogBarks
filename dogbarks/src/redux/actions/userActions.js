@@ -1,8 +1,5 @@
-// const baseUrl = 'http://localhost:3000/api/v1/users'
-// const axios = require('axios')\
 
-
-export const loginUser = (user, callback) => {
+export const loginUser = (user) => {
 
 
   let data = {
@@ -16,37 +13,19 @@ export const loginUser = (user, callback) => {
 
   return dispatch => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
-       .then((response) => {
-         if (response.token){
-           this.context.router.history.push("/mapContainer")
-
-           console.log(response.ok);
-
-           console.log("will work");
-
-         }else {
-            this.context.router.history.push("/signup")
-           console.log("wont work");
-
-
-         }
-       })
-
-        .then( response => response.json())
-
-
-
-       .then(user => {
-        sessionStorage.setItem('token', user.token)
+       .then(response => response.json())
+         .then(token => {
+         console.log(token,"user");
+        sessionStorage.setItem('token', token)
 
         dispatch({
           type: 'SET_USER',
-          payload: user.current
+          payload: token.current
         })
 
-         callback()
+
       })
-      .catch(err => err);
+      .catch(err => err)
 
 
   }
