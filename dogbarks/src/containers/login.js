@@ -39,7 +39,7 @@ class Login extends Component {
     this.setState(state);
   }
 
-async onSubmit(e) {
+ onSubmit(e) {
      e.preventDefault();
 
   const user = this.state
@@ -48,7 +48,7 @@ async onSubmit(e) {
   if (sessionStorage.token){
 
       this.props.history.push("/mapContainer")
-      
+
 
 
       console.log("will work")
@@ -59,7 +59,7 @@ async onSubmit(e) {
 
     }
 
-     this.setState({
+    this.setState({
      email: "",
      password: ""
     });

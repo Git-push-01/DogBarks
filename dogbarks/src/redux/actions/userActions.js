@@ -20,7 +20,7 @@ export const loginUser = (user) => {
 
         dispatch({
           type: 'SET_USER',
-          payload: user.current
+          payload: user.token.current
         })
 
 
