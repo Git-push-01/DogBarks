@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {push} from 'react-router-redux'
+
 
 
 function validate(email, password) {
@@ -42,10 +42,11 @@ class Login extends Component {
  onSubmit(e) {
      e.preventDefault();
 
-  const user = this.state
+     const user = this.state
+
   this.props.loginUser(user)
 
-  if (sessionStorage.token){
+  if (sessionStorage.user){
 
       this.props.history.push("/mapContainer")
 

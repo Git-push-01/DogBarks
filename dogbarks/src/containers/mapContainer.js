@@ -11,7 +11,7 @@ import config from "../config";
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 // import { PathLayer } from "@deck.gl/layers";
 // import MapGL, { Marker } from "react-map-gl";
-import { loginUser } from "../redux/actions/userActions";
+
 
 const TOKEN = config.REACT_APP_TOKEN;
 

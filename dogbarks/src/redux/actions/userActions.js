@@ -6,21 +6,26 @@ export const loginUser = (user) => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     },
-    body: JSON.stringify( user )
+    body: JSON.stringify(user)
   }
 
-  return dispatch => {
+  return  dispatch => {
      fetch(`http://localhost:3000/api/v1/users/login`, data)
-       .then(response => response.json())
+       .then(( response) => { if(!response.ok) throw new Error(response.status);
+    else return response.json(console.log(response));
+
+  })
          .then(user => {
-         console.log(user,"user");
+         console.log(user.token,"user");
         sessionStorage.setItem('token', user.token)
+
 
         dispatch({
           type: 'SET_USER',
-          payload: user.token.current
+          payload: user
         })
 
 
