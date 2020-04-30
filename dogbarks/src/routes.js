@@ -6,12 +6,12 @@ import MapContainer from "./containers/mapContainer";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 const loggedIn = () => {
- if (sessionStorage.token){
-   return  <Redirect push to="/MapContainer"/>;
+ if (sessionStorage["token"] === true){
+   return  <Redirect to="/MapContainer"/>;
 
  }else {
 
-  return <Redirect push to="/Signup"/>
+  return <Redirect to="/Signup"/>
  }
 
 }
