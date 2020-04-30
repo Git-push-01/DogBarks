@@ -7,13 +7,11 @@ import { loginUser } from "../redux/actions/userActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-
-
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
   return {
     email: email.length === 0,
-    password: password.length === 0
+    password: password.length === 0,
   };
 }
 
@@ -23,14 +21,14 @@ class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
- onChange(e) {
+  onChange(e) {
     const field = e.target.name;
     let state = this.state;
 
@@ -39,47 +37,27 @@ class Login extends Component {
     this.setState(state);
   }
 
- onSubmit(e) {
-     e.preventDefault();
+  onSubmit(e) {
+    e.preventDefault();
 
-     const user = this.state
-
-  this.props.loginUser(user)
-
-  if (sessionStorage.user){
-
-      this.props.history.push("/mapContainer")
-
-
-
-      console.log("will work")
-
-    }else {
-      this.props.history.push("/signup")
-      console.log("wont work")
-
-    }
+    this.props.loginUser(this.state)
 
     this.setState({
-     email: "",
-     password: ""
-    });
-
+      email:"",
+      password:""
+    })
   }
-
-
-
 
   canBeSubmitted() {
     const errors = validate(this.state.email, this.state.password);
-    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const isDisabled = Object.keys(errors).some((x) => errors[x]);
     return !isDisabled;
   }
 
   render() {
     console.log(this.state);
     const errors = validate(this.state.email, this.state.password);
-    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const isDisabled = Object.keys(errors).some((x) => errors[x]);
     const { email, password } = this.state;
 
     return (
@@ -89,7 +67,7 @@ class Login extends Component {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            padding: 10 + "px"
+            padding: 10 + "px",
           }}
           className="login"
           onSubmit={this.onSubmit}
@@ -126,7 +104,7 @@ class Login extends Component {
               left: 2,
               fontSize: "32px",
               position: "relative",
-              top: 23
+              top: 23,
             }}
           >
             <Button
@@ -153,19 +131,12 @@ class Login extends Component {
   }
 }
 
-
-
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      loginUser
+      loginUser,
     },
     dispatch
   );
 
-export default withRouter(
-  connect(
-      null,
-    mapDispatchToProps
-  )(Login)
-);
+export default withRouter(connect(null, mapDispatchToProps)(Login));
