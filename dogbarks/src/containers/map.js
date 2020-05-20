@@ -5,11 +5,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { NavigationControl } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import DeckGL, { GeoJsonLayer } from "deck.gl";
-// import Geocoder from "react-map-gl-geocoder";
-// import Button from "react-bootstrap/Button";
-// import DeckGL, {FlyToInterpolator}  from "deck.gl";
 import { withRouter } from "react-router-dom";
-// import { PathLayer } from "@deck.gl/layers";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
 
 const TOKEN = config.REACT_APP_TOKEN;
 
@@ -56,7 +54,7 @@ const Map = () => {
     });
   };
 
-  const handleOnResult = (event) => {
+  const handleOnResult = event => {
     this.setState({
       searchResultLayer: new GeoJsonLayer({
         id: "search-result",
@@ -116,6 +114,7 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
+
       </ReactMapGL>
     </div>
   );

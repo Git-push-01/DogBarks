@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "@deck.gl/mapbox": "^8.1.7",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "deck.gl": "^7.3.6",
+    "es6-promise": "^4.2.8",
     "g": "^2.0.1",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
