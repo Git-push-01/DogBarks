@@ -18,6 +18,7 @@ export const loginUser = (user) => {
     else return response.json(console.log(response));
 
   })
+
          .then(user => {
          console.log(user.token,"user");
         sessionStorage.setItem('token', user.token)
@@ -25,11 +26,12 @@ export const loginUser = (user) => {
 
         dispatch({
           type: 'SET_USER',
-          payload: user
+          payload: user.token
         })
 
 
       })
+
       .catch(err => err)
 
 

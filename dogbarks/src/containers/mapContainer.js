@@ -20,7 +20,8 @@ class MapContainer extends Component {
     viewport: {
       latitude: 0,
       longitude: 0,
-      zoom: 1
+      zoom: 1,
+
     },
     searchResultLayer: null
   };
@@ -77,7 +78,7 @@ class MapContainer extends Component {
           {...viewport}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           width="100%"
-          height="100%"
+          height="90%"
           onViewportChange={this.props.handleViewportChange}
           mapboxApiAccessToken={TOKEN}
         >

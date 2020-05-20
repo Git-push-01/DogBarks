@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import ReactMapGL, { GeolocateControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
+import MapGL, { NavigationControl } from "react-map-gl";
+import Geocoder from "react-map-gl-geocoder";
+import DeckGL, { GeoJsonLayer } from "deck.gl";
 // import Geocoder from "react-map-gl-geocoder";
 // import Button from "react-bootstrap/Button";
 // import DeckGL, {FlyToInterpolator}  from "deck.gl";
@@ -11,74 +14,110 @@ import { withRouter } from "react-router-dom";
 const TOKEN = config.REACT_APP_TOKEN;
 
 const geolocateStyle = {
-  float: 'left',
-   margin: '50px',
-   padding: '10px'
+  float: "left",
+  margin: "50px",
+  padding: "10px",
 };
-// const data = [
-//   {
-//     name: "random-name",
-//     color: [101, 147, 245],
-//     path: []
-//   }
-// ];
-//
+
 const Map = () => {
-  // const layer = [
-  //   // new PathLayer({
-  //   //   id: "path-layer",
-  //   //   data,
-  //   //   getWidth: data => 7,
-  //   //   getColor: data => data.color,
-  //   //   widthMinPixels: 7
-  //   // })
-  // ];
-
-  const [viewport, setViewPort, searchResultLayer] = useState({
-
- width: "100%",
- height: 900,
- latitude: 0,
- longitude: 0,
- zoom: 2,
- searchResultLayer: null
-
+  const [viewport, setViewPort] = useState({
+    width: "100%",
+    height: 900,
+    latitude: 0,
+    longitude: 0,
+    zoom: 3.5,
+    maxZoom: 10,
+    minZoom: 0,
+    bearing: 0,
+    pitch: 0,
+    dragPan: true,
+    dragRotate: true,
+    scrollZoom: false,
+    touchZoom: true,
+    touchRotate: true,
+    keyboard: true,
+    doubleClickZoom: true,
+    minPitch: 0,
+    maxPitch: 85,
   });
 
+  const handleViewportChange = (viewport) => {
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport },
+    });
+  };
+  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
+  const handleGeocoderViewportChange = (viewport) => {
+    const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
-  const _onViewportChange = viewport =>
-    setViewPort({ ...viewport, transitionDuration: 1000 });
+    return this.handleViewportChange({
+      ...viewport,
+      ...geocoderDefaultOverrides,
+    });
+  };
+
+  const handleOnResult = (event) => {
+    this.setState({
+      searchResultLayer: new GeoJsonLayer({
+        id: "search-result",
+        data: event.result.geometry,
+        getFillColor: [255, 0, 0, 128],
+        getRadius: 1000,
+        pointRadiusMinPixels: 10,
+        pointRadiusMaxPixels: 10,
+      }),
+    });
+  };
+
+  const mapRef = React.useRef();
+
+  const _onViewportChange = (viewport) =>
+    setViewPort({ ...viewport, transitionDuration: 3000 });
 
   return (
     <div style={{ margin: "0 auto" }}>
-
       <h1
         style={{ textAlign: "center", fontSize: "25px", fontWeight: "bolder" }}
       >
         GeoLocator: Click To Find Your Location or click{" "}
-        <a href="/mapContainer">here</a> to search for a location
-        {" "}
+        <a href="/mapContainer">here</a> to search for a location{" "}
         <a href="/logout">Log Out</a>
       </h1>
 
-        <ReactMapGL
-          {...viewport}
-          mapboxApiAccessToken={TOKEN}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-          onViewportChange={_onViewportChange}
-
+      <ReactMapGL
+        ref={mapRef}
+        {...viewport}
+        mapboxApiAccessToken={TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+        onViewportChange={_onViewportChange}
+      >
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={false}
+          showUserLocation={true}
+        />
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            float: "left",
+            margin: "50px",
+            padding: "10px",
+          }}
         >
-          <GeolocateControl
-            style={geolocateStyle}
-            positionOptions={{ enableHighAccuracy: true }}
-            trackUserLocation={false}
-            showUserLocation={true}
-          />
-        </ReactMapGL>
-
-
-      </div>
-
+          <NavigationControl onViewportChange={_onViewportChange} />
+        </div>
+        <Geocoder
+          mapRef={mapRef}
+          onResult={handleOnResult}
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken={TOKEN}
+          showUserLocation={true}
+          position="top-left"
+        />
+      </ReactMapGL>
+    </div>
   );
 };
 
