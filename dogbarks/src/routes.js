@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./containers/login";
 import Signup from "./containers/signup";
-import Map from "./components/map";
+
 import MapContainer from "./containers/mapContainer";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 const logout = () => {
   sessionStorage.clear();
 
-  return < Redirect to="/login" />;
+  return <Redirect to="/login" />;
 };
 
 export default (
@@ -19,8 +19,6 @@ export default (
       <Route path="/login" component={Login} />
 
       <Route path="/signup" component={Signup} />
-
-      <Route path="/map" component={Map} />
 
       <Route path="/mapContainer" component={MapContainer} />
 

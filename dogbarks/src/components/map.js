@@ -23,7 +23,7 @@ const Map = () => {
     height: 900,
     latitude: 0,
     longitude: 0,
-    zoom: 3.5,
+    zoom: 1,
     maxZoom: 10,
     minZoom: 0,
     bearing: 0,
@@ -70,7 +70,7 @@ const Map = () => {
   const mapRef = React.useRef();
 
   const _onViewportChange = (viewport) =>
-    setViewPort({ ...viewport, transitionDuration: 3000 });
+    setViewPort({ ...viewport, transitionDuration: 1000 });
 
   return (
     <div style={{ margin: "0 auto" }}>
