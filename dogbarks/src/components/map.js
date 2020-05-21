@@ -39,33 +39,33 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  const handleViewportChange = (viewport) => {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport },
-    });
-  };
+  // const handleViewportChange = (viewport) => {
+  //   this.setState({
+  //     viewport: { ...this.state.viewport, ...viewport },
+  //   });
+  // };
   // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
-  const handleGeocoderViewportChange = (viewport) => {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+  // const handleGeocoderViewportChange = viewport => {
+  //   const geocoderDefaultOverrides = { transitionDuration: 1000 };
+  //
+  //   return this.handleViewportChange({
+  //     ...viewport,
+  //     ...geocoderDefaultOverrides,
+  //   });
+  // };
 
-    return this.handleViewportChange({
-      ...viewport,
-      ...geocoderDefaultOverrides,
-    });
-  };
-
-  const handleOnResult = event => {
-    this.setState({
-      searchResultLayer: new GeoJsonLayer({
-        id: "search-result",
-        data: event.result.geometry,
-        getFillColor: [255, 0, 0, 128],
-        getRadius: 1000,
-        pointRadiusMinPixels: 10,
-        pointRadiusMaxPixels: 10,
-      }),
-    });
-  };
+  // const handleOnResult = (event) => {
+  //   this.setState({
+  //     searchResultLayer: new GeoJsonLayer({
+  //       id: "search-result",
+  //       data: event.result.geometry,
+  //       getFillColor: [255, 0, 0, 128],
+  //       getRadius: 1000,
+  //       pointRadiusMinPixels: 10,
+  //       pointRadiusMaxPixels: 10,
+  //     }),
+  //   });
+  // };
 
   const mapRef = React.useRef();
 
@@ -108,8 +108,7 @@ const Map = () => {
         </div>
         <Geocoder
           mapRef={mapRef}
-          onResult={handleOnResult}
-          onViewportChange={handleGeocoderViewportChange}
+          onViewportChange={_onViewportChange}
           mapboxApiAccessToken={TOKEN}
           showUserLocation={true}
           position="top-left"

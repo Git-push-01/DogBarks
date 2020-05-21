@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./containers/login";
 import Signup from "./containers/signup";
-import Map from "./containers/map";
+import Map from "./components/map";
 import MapContainer from "./containers/mapContainer";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 

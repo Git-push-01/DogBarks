@@ -64,6 +64,28 @@ export const signupUser = (user) => {
       .catch(err => err)
   }
 }
+// export const fetchUser = () => {
+//   let data = {
+//     method: 'GET',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Authorization': sessionStorage.jwt
+//     }
+//   }
+//
+//   return dispatch => {
+//     fetch(`http://localhost:3000/api/v1/users/login`, data)
+//       .then(response => response.json())
+//       .then(users => {
+//         dispatch({
+//           type: 'SET_USER',
+//           payload: users
+//         })
+//       })
+//       .catch(err => err)
+//   }
+// }
 
 
 
