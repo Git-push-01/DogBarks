@@ -12,9 +12,9 @@ import "./index.css";
 
 import userReducer from "./redux/reducers/userReducer";
 
-const rootReducer =(userReducer);
 
-const store = createStore( rootReducer, applyMiddleware(thunk));
+
+const store = createStore( userReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>

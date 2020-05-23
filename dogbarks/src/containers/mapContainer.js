@@ -1,21 +1,40 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import Map from "../components/map";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { fetchUser } from "../redux/actions/userActions";
 
 
 
 class MapContainer extends Component {
-  // componentWillMount() {
-  //   this.props.();
-  // }
+  componentDidMount() {
+      this.props.fetchUser();
+    }
 
   render() {
+    console.log(this.props, " mapContainer Props");
     return (
       <div>
-        <Map />
+        <Map user={fetchUser()}/>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.userReducer
+  };
+};
 
-export default withRouter(MapContainer);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      fetchUser
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapContainer);

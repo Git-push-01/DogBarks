@@ -40,7 +40,9 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    this.props.loginUser(this.state)
+    this.props.loginUser(this.state, () =>
+      this.props.history.push("/mapContainer")
+    );
 
     this.setState({
       email:"",
@@ -131,7 +133,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       loginUser,

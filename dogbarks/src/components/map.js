@@ -21,13 +21,13 @@ const Map = () => {
     latitude: 0,
     longitude: 0,
     zoom: 1,
-    maxZoom: 10,
+    maxZoom: 5,
     minZoom: 0,
     bearing: 0,
     pitch: 0,
     dragPan: true,
     dragRotate: true,
-    scrollZoom: false,
+    scrollZoom: true,
     touchZoom: true,
     touchRotate: true,
     keyboard: true,
@@ -46,8 +46,6 @@ const Map = () => {
       <h1
         style={{ textAlign: "center", fontSize: "25px", fontWeight: "bolder" }}
       >
-        GeoLocator: Click To Find Your Location or click{" "}
-        <a href="/mapContainer">here</a> to search for a location{" "}
         <a href="/logout">Log Out</a>
       </h1>
 
