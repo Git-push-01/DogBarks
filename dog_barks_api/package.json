@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel server.js --out-dir build",
     "dev-start": "babel-watch server.js"
+
   },
   "dependencies": {
     "audit": "0.0.6",

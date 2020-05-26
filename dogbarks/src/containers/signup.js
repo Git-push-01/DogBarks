@@ -6,14 +6,11 @@ import { connect } from "react-redux";
 import { signupUser } from "../redux/actions/userActions";
 import Form from "react-bootstrap/Form";
 
-
-
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
   return {
-
     email: email.length === 0,
-    password: password.length === 0
+    password: password.length === 0,
   };
 }
 
@@ -23,7 +20,7 @@ class Signup extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -41,37 +38,35 @@ class Signup extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-
     const user = this.state;
     this.props.signupUser(user, () => this.props.history.push("/login"));
 
     this.setState({
-     email: "",
-     password: ""
-   });
+      email: "",
+      password: "",
+    });
   }
 
   canBeSubmitted() {
     const errors = validate(this.state.email, this.state.password);
-    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const isDisabled = Object.keys(errors).some((x) => errors[x]);
     return !isDisabled;
   }
 
   render() {
     console.log(this.state);
     const errors = validate(this.state.email, this.state.password);
-    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const isDisabled = Object.keys(errors).some((x) => errors[x]);
     const { email, password } = this.state;
 
     return (
       <div>
-
         <Form
           style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            padding: 10 + "px"
+            padding: 10 + "px",
           }}
           className="signup"
           onSubmit={this.onSubmit}
@@ -105,7 +100,7 @@ class Signup extends Component {
               left: 2,
               fontSize: "32px",
               position: "relative",
-              top: 23
+              top: 23,
             }}
           >
             <Button
@@ -116,8 +111,7 @@ class Signup extends Component {
             >
               Submit
             </Button>
-            <Button
-            href="/login" className="btn btn-info" role="button">
+            <Button href="/login" className="btn btn-info" role="button">
               Log In
             </Button>
           </div>
@@ -127,18 +121,12 @@ class Signup extends Component {
   }
 }
 
-
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      signupUser
+      signupUser,
     },
     dispatch
   );
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(Signup)
-);
+export default withRouter(connect(null, mapDispatchToProps)(Signup));

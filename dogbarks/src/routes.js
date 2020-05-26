@@ -1,11 +1,10 @@
 import React from "react";
 import Login from "./containers/login";
 import Signup from "./containers/signup";
-
 import MapContainer from "./containers/mapContainer";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-const loggedIn = () => !!sessionStorage["token"]  
+const loggedIn = () =>  !!sessionStorage["token"] 
 
 const logout = () => {
   sessionStorage.clear();

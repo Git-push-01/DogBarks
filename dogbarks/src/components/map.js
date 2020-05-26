@@ -3,7 +3,6 @@ import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
-import { withRouter } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const TOKEN = config.REACT_APP_TOKEN;
@@ -17,7 +16,7 @@ const geolocateStyle = {
 const Map = () => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-    height: 900,
+    height: 500,
     latitude: 0,
     longitude: 0,
     zoom: 1,
@@ -42,9 +41,9 @@ const Map = () => {
     setViewPort({ ...viewport, transitionDuration: 1000 });
 
   return (
-    <div style={{ margin: "0 auto" }}>
+    <div>
       <h1
-        style={{ textAlign: "center", fontSize: "25px", fontWeight: "bolder" }}
+        style={{ textAlign: "right", fontSize: "25px", fontWeight: "bolder" }}
       >
         <a href="/logout">Log Out</a>
       </h1>
@@ -85,4 +84,4 @@ const Map = () => {
   );
 };
 
-export default withRouter(Map);
+export default(Map);

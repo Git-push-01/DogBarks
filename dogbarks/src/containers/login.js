@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
@@ -45,9 +44,9 @@ class Login extends Component {
     );
 
     this.setState({
-      email:"",
-      password:""
-    })
+      email: "",
+      password: "",
+    });
   }
 
   canBeSubmitted() {
@@ -133,7 +132,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       loginUser,
