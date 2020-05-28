@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
@@ -38,10 +39,10 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.props.loginUser(this.state, this.props.history.push("/mapContainer"))
 
-    this.props.loginUser(this.state, () =>
-      this.props.history.push("/mapContainer")
-    );
+
+
 
     this.setState({
       email: "",
@@ -136,6 +137,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       loginUser,
+
     },
     dispatch
   );

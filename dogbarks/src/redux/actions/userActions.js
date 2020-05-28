@@ -1,3 +1,4 @@
+
 export const loginUser = (user) => {
   let data = {
     method: "POST",
@@ -21,7 +22,7 @@ export const loginUser = (user) => {
 
         dispatch({
           type: "SET_USER",
-          payload: user.current,
+          payload: user.current
         });
       })
 
@@ -66,13 +67,14 @@ export const fetchUser = (id) => {
   };
 
   return (dispatch) => {
-    fetch(`http://localhost:3000/api/v1/users/:${id} `, data)
+   fetch(`http://localhost:3000/api/v1/users/:${id} `, data)
       .then((response) => response.json())
       .then((user) => {
+        sessionStorage.setItem("user", user.email);
         console.log(user, "current user");
         dispatch({
           type: "SET_USER",
-          payload: user,
+          payload: user
         });
       })
       .catch((err) => err);
