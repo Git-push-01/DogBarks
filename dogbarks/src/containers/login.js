@@ -22,6 +22,9 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+
+
+
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -39,6 +42,9 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
+
+
     this.props.loginUser(this.state, this.props.history.push("/mapContainer"))
 
 
@@ -47,6 +53,7 @@ class Login extends Component {
     this.setState({
       email: "",
       password: "",
+      
     });
   }
 

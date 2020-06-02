@@ -8,17 +8,23 @@ class MapContainer extends Component {
 
   constructor() {
       super();
-      this.state = { user: this.state };
+      this.state = { user: this.state, isLoggedIn: false };
       console.log(this.state, "1 state");
     }
   componentDidMount() {
-      this.props.fetchUser()
+    this.props.fetchUser(sessionStorage.getItem("user"))
+    this.setState({isLoggedIn: true});
+
 
   }
 
 
 
+
+
+
   render() {
+
     console.log(this.props, " mapContainer Props");
 
     return (
@@ -29,8 +35,8 @@ class MapContainer extends Component {
             fontSize: "15px",
             fontWeight: "bolder",
           }}
-        >
-          Welcome:{sessionStorage.getItem("user")}
+         >
+          Welcome:{this.props.user.email}
         </h1>
 
         <Map />
