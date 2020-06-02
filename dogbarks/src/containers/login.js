@@ -45,6 +45,7 @@ class Login extends Component {
 
 
 
+
     this.props.loginUser(this.state, this.props.history.push("/mapContainer"))
 
 
@@ -53,7 +54,7 @@ class Login extends Component {
     this.setState({
       email: "",
       password: "",
-      
+
     });
   }
 

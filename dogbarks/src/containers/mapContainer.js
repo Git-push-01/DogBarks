@@ -6,21 +6,9 @@ import { fetchUser } from "../redux/actions/userActions";
 
 class MapContainer extends Component {
 
-  constructor() {
-      super();
-      this.state = { user: this.state, isLoggedIn: false };
-      console.log(this.state, "1 state");
-    }
   componentDidMount() {
-    this.props.fetchUser(sessionStorage.getItem("user"))
-    this.setState({isLoggedIn: true});
-
-
+  this.props.fetchUser()
   }
-
-
-
-
 
 
   render() {
@@ -29,16 +17,15 @@ class MapContainer extends Component {
 
     return (
       <div>
-        <h1
-          style={{
-            textAlign: "left",
-            fontSize: "15px",
-            fontWeight: "bolder",
-          }}
-         >
-          Welcome:{this.props.user.email}
-        </h1>
-
+      <h1
+        style={{
+          textAlign: "left",
+          fontSize: "15px",
+          fontWeight: "bolder",
+        }}
+       >
+        Welcome:{this.props.user.email}
+      </h1>
         <Map />
       </div>
     );
@@ -53,7 +40,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      fetchUser,
+      fetchUser
     },
     dispatch
   );

@@ -40,8 +40,10 @@ const Map = () => {
   const _onViewportChange = (viewport) =>
     setViewPort({ ...viewport, transitionDuration: 1000 });
 
+
   return (
     <div>
+    
       <h1
         style={{ textAlign: "right", fontSize: "25px", fontWeight: "bolder" }}
       >
