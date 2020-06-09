@@ -4,6 +4,7 @@ import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { Button } from "react-bootstrap";
 
 const TOKEN = config.REACT_APP_TOKEN;
 
@@ -43,12 +44,11 @@ const Map = () => {
 
   return (
     <div>
-    
-      <h1
-        style={{ textAlign: "right", fontSize: "25px", fontWeight: "bolder" }}
-      >
-        <a href="/logout">Log Out</a>
-      </h1>
+    <Button  href="/logout">
+
+        Log Out
+
+        </Button>
 
       <ReactMapGL
         ref={mapRef}

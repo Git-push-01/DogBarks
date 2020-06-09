@@ -10,8 +10,8 @@ export default function userReducer(state = initialState, action) {
     case "DELETE_USER":
       return {
         ...state,
-        current: state.current.filter(
-          (current) => current.id !== action.payload.id
+        user: state.user.filter(
+          (user) => user.id !== action.payload.id
         ),
       };
     default:

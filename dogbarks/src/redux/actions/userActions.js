@@ -22,7 +22,7 @@ export const loginUser = (user) => {
 
         dispatch({
           type: "SET_USER",
-          payload: user.current
+          payload: user.token
         });
       })
 
@@ -48,7 +48,7 @@ export const signupUser = (user) => {
 
         dispatch({
           type: "SET_USER",
-          payload: user.current,
+          payload: user,
         });
 
         // callback()
@@ -86,20 +86,20 @@ export const deleteUser = (id) => {
     method: "DELETE",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
-      "x-access-token": sessionStorage.token,
+      "Content-Type": "application/json"
+
     },
   };
 
-  return (dispatch) => {
+  return dispatch => {
     fetch(`http://localhost:3000/api/v1/users/:${id}`, data)
       .then((response) => response.json())
-      .then((user) =>
+      .then(user =>
         dispatch({
           type: "DELETE_USER",
-          payload: user,
-        })
-      )
+          payload: user
+        }))
+
       .catch((err) => err);
   };
 };

@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/v1/users/signup', UserWithDb.create);
 app.post('/api/v1/users/login', UserWithDb.login);
-app.delete('/api/v1/users/:id', Auth.verifyToken, UserWithDb.delete);
+app.delete('/api/v1/users/:id', UserWithDb.delete);
 app.get('/api/v1/users/:id', Auth.verifyToken)
 
 app.listen(3000)
