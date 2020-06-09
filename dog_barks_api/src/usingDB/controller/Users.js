@@ -91,9 +91,10 @@ const User = {
    * @returns {void} return status code 204
    */
   async delete(req, res) {
-    const deleteQuery = "DELETE FROM users WHERE id=$1";
+    const deleteQuery = "DELETE FROM users WHERE id = $1";
+
     try {
-      const { rows } = await db.query(deleteQuery, [req.user.id]);
+      const { rows } = await db.query(deleteQuery, [req.users.id]);
       if (!rows[0]) {
         return res.status(404).send({ message: "user not found" });
       }

@@ -3,7 +3,7 @@ export const loginUser = (user) => {
   let data = {
     method: "POST",
     headers: {
-      Accept: "application/json",
+      'Accept': "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
@@ -34,7 +34,7 @@ export const signupUser = (user) => {
   let data = {
     method: "POST",
     headers: {
-      Accept: "application/json",
+      'Accept': "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
@@ -60,14 +60,16 @@ export const fetchUser = (id) => {
   let data = {
     method: "GET",
     headers: {
-      Accept: "application/json",
+      'Accept': "application/json",
       "Content-Type": "application/json",
       "x-access-token": sessionStorage.token,
+
     },
+
   };
 
   return (dispatch) => {
-   fetch(`http://localhost:3000/api/v1/users/:${id} `, data)
+   fetch(`http://localhost:3000/api/v1/users/:${id}`, data)
       .then((response) => response.json())
       .then((user) => {
         sessionStorage.setItem("user", user.email);
@@ -85,10 +87,11 @@ export const deleteUser = (id) => {
   let data = {
     method: "DELETE",
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-
+      'Accept': "application/json",
+      "Content-Type": "application/json",
     },
+
+
   };
 
   return dispatch => {
@@ -97,7 +100,7 @@ export const deleteUser = (id) => {
       .then(user =>
         dispatch({
           type: "DELETE_USER",
-          payload: user
+          payload: user.id
         }))
 
       .catch((err) => err);
