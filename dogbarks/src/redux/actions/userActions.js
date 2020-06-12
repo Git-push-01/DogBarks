@@ -69,7 +69,7 @@ export const fetchUser = (id) => {
   };
 
   return (dispatch) => {
-   fetch(`http://localhost:3000/api/v1/users/:${id}`, data)
+   fetch(`http://localhost:3000/api/v1/users/${id}`, data)
       .then((response) => response.json())
       .then((user) => {
         sessionStorage.setItem("user", user.email);
@@ -95,12 +95,12 @@ export const deleteUser = (id) => {
   };
 
   return dispatch => {
-    fetch(`http://localhost:3000/api/v1/users/:${id}`, data)
+    fetch(`http://localhost:3000/api/v1/users/${id}`, data)
       .then((response) => response.json())
       .then(user =>
         dispatch({
           type: "DELETE_USER",
-          payload: user.id
+          payload: id
         }))
 
       .catch((err) => err);

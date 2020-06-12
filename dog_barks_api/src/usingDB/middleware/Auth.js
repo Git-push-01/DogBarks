@@ -25,6 +25,8 @@ const Auth = {
       } else if (!!rows[0]) {
         req.rows = rows[0];
         return res.status(200).json(req.rows);
+        req.user = { id: decoded.userId };
+      next();
       }
     } catch (error) {
       return res.status(400).send(error);
