@@ -89,6 +89,7 @@ export const deleteUser = (id) => {
     headers: {
       'Accept': "application/json",
       "Content-Type": "application/json",
+
     },
 
 
@@ -100,7 +101,9 @@ export const deleteUser = (id) => {
       .then(user =>
         dispatch({
           type: "DELETE_USER",
-          payload: id
+          payload: user.id,
+
+
         }))
 
       .catch((err) => err);

@@ -10,8 +10,8 @@ const pool = new Pool({
 export default {
   /**
    * DB Query
-   * @param {string} text
-   * @param {Array} params
+   * @param {object} text
+   * @param {object} params
    * @returns {object} object
    */
   query(text, params){
