@@ -22,9 +22,6 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-
-
-
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -43,18 +40,11 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-
-
-
-    this.props.loginUser(this.state, this.props.history.push("/mapContainer"))
-
-
-
+    this.props.loginUser(this.state, this.props.history.push("/mapContainer"));
 
     this.setState({
       email: "",
       password: "",
-
     });
   }
 
@@ -73,6 +63,7 @@ class Login extends Component {
     return (
       <div>
         <Form
+      
           style={{
             display: "flex",
             flexDirection: "row",
@@ -145,7 +136,6 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       loginUser,
-
     },
     dispatch
   );

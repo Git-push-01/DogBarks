@@ -5,39 +5,34 @@ import { bindActionCreators } from "redux";
 import { fetchUser, deleteUser } from "../redux/actions/userActions";
 import { Button } from "react-bootstrap";
 
-
 class MapContainer extends Component {
-
   componentDidMount() {
-  this.props.fetchUser()
+    this.props.fetchUser();
   }
 
-
   render() {
-
     console.log(this.props.user, " mapContainer delete Props");
-    const user = this.props.user.id
+    const userEmail = this.props.user.email;
+    const user = this.props.user.id;
 
     return (
       <div>
-      <h1
-        style={{
-          textAlign: "left",
-          fontSize: "15px",
-          fontWeight: "bolder",
-        }}
-       >
-        Welcome:{this.props.user.email}
-      </h1>
-      <Button onClick={() => this.props.deleteUser(user)}>
-                DELETE
-              </Button>
+        <h1
+          style={{
+            textAlign: "left",
+            fontSize: "15px",
+            fontWeight: "bolder",
+          }}
+        >
+          Welcome:{userEmail}
+        </h1>
+        <Button  href="/logout" onClick={() => this.props.deleteUser(user)}>DELETE USER</Button>
         <Map />
       </div>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.userReducer.user,
   };

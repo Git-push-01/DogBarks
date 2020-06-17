@@ -46,7 +46,7 @@ const Map = () => {
     <div>
     <Button  href="/logout">
 
-        Log Out
+        LOG OUT
 
         </Button>
 
@@ -54,7 +54,7 @@ const Map = () => {
         ref={mapRef}
         {...viewport}
         mapboxApiAccessToken={TOKEN}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapStyle="mapbox://styles/mapbox/outdoors-v11"
         onViewportChange={_onViewportChange}
       >
         <GeolocateControl
