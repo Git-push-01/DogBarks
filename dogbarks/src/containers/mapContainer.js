@@ -8,7 +8,28 @@ import { Button } from "react-bootstrap";
 class MapContainer extends Component {
   componentDidMount() {
     this.props.fetchUser();
-  }
+
+
+  const parksData =
+    fetch('https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson',{
+      headers: {
+
+     'Content-Type': 'application/geo+json',
+     'X-Api-Key': 'ecSmq2DmpfDof8AJ5DaDSpSGjVKyMJuEAVTRJwJY',
+
+   },
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+    }).then(responseJson => console.log(responseJson))
+    .catch(err => {
+      console.log(err);
+      alert("Something went wrong, try again!");
+    });
+
+}
 
   render() {
     console.log(this.props.user, " mapContainer delete Props");
@@ -16,7 +37,7 @@ class MapContainer extends Component {
     const user = this.props.user.id;
 
     return (
-      <div>
+      <div >
         <h1
           style={{
             textAlign: "left",

@@ -21,7 +21,7 @@ const Map = () => {
     latitude: 0,
     longitude: 0,
     zoom: 1,
-    maxZoom: 5,
+    maxZoom: 8,
     minZoom: 0,
     bearing: 0,
     pitch: 0,
@@ -35,6 +35,7 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
+
 
   const mapRef = React.useRef();
 
@@ -54,7 +55,7 @@ const Map = () => {
         ref={mapRef}
         {...viewport}
         mapboxApiAccessToken={TOKEN}
-        mapStyle="mapbox://styles/mapbox/outdoors-v11"
+        mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={_onViewportChange}
       >
         <GeolocateControl

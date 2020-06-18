@@ -79,7 +79,7 @@ export const fetchUser = (id) => {
           payload: user
         });
       })
-      .catch((err) => err);
+      .catch(error => alert('Error! ' + error.message))
   };
 };
 

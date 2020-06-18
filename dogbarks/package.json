@@ -2,6 +2,7 @@
   "name": "dogbarks",
   "version": "0.1.0",
   "private": true,
+
   "dependencies": {
     "google-maps-react": "^2.0.2",
     "mapbox-gl": "^1.5.0",
@@ -19,6 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": "react-app"
   },
