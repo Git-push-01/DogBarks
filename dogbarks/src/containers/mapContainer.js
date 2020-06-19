@@ -8,27 +8,29 @@ import { Button } from "react-bootstrap";
 class MapContainer extends Component {
   componentDidMount() {
     this.props.fetchUser();
+}
 
 
-  const parksData =
-    fetch('https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson',{
-      headers: {
+UNSAFE_componentWillMount(){
+async  function parksData(){
+   let response = await fetch('https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson',{
+     headers: {
 
-     'Content-Type': 'application/geo+json',
-     'X-Api-Key': 'ecSmq2DmpfDof8AJ5DaDSpSGjVKyMJuEAVTRJwJY',
+    'X-Api-Key': 'ecSmq2DmpfDof8AJ5DaDSpSGjVKyMJuEAVTRJwJY',
 
-   },
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-    }).then(responseJson => console.log(responseJson))
-    .catch(err => {
-      console.log(err);
-      alert("Something went wrong, try again!");
-    });
-
+  },
+   })
+   .then(response => {
+     if (response.ok) {
+   let data = response.json();
+   return  data;
+     }
+   }).then(data => console.log(data))
+   .catch(err => {
+     console.log(err);
+     alert("Something went wrong, try again!");
+   });
+ }
 }
 
   render() {
