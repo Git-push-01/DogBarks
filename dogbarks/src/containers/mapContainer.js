@@ -7,15 +7,23 @@ import { Button } from "react-bootstrap";
 
 class MapContainer extends Component {
   async componentDidMount() {
-     this.props.fetchUser();
+    this.props.fetchUser();
 
- const response = await fetch('https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson')
- const json =  await response.json();
- this.setState({ data:json});
+await fetch('https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson')
+.then(response => {
+  if (response.ok) {
+let data = response.json();
+return  data;
+  }
+}).then(data => console.log(data))
+
+.catch(err => {
+  console.log(err);
+  alert("Something went wrong, try again!");
+});
 }
 
   render() {
-    console.log(this.state, "nps data");
     console.log(this.props.user, " mapContainer delete Props");
     const userEmail = this.props.user.email;
     const user = this.props.user.id;
@@ -32,7 +40,7 @@ class MapContainer extends Component {
           Welcome:{userEmail}
         </h1>
         <Button  href="/logout" onClick={() => this.props.deleteUser(user)}>DELETE USER</Button>
-        <Map npsData={this.state} />
+        <Map  />
       </div>
     );
   }
