@@ -6,34 +6,16 @@ import { fetchUser, deleteUser } from "../redux/actions/userActions";
 import { Button } from "react-bootstrap";
 
 class MapContainer extends Component {
-  componentDidMount() {
-    this.props.fetchUser();
-}
+  async componentDidMount() {
+     this.props.fetchUser();
 
-
-UNSAFE_componentWillMount(){
-async  function parksData(){
-   let response = await fetch('https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson',{
-     headers: {
-
-    'X-Api-Key': 'ecSmq2DmpfDof8AJ5DaDSpSGjVKyMJuEAVTRJwJY',
-
-  },
-   })
-   .then(response => {
-     if (response.ok) {
-   let data = response.json();
-   return  data;
-     }
-   }).then(data => console.log(data))
-   .catch(err => {
-     console.log(err);
-     alert("Something went wrong, try again!");
-   });
- }
+ const response = await fetch('https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson')
+ const json =  await response.json();
+ this.setState({ data:json});
 }
 
   render() {
+    console.log(this.state, "nps data");
     console.log(this.props.user, " mapContainer delete Props");
     const userEmail = this.props.user.email;
     const user = this.props.user.id;
@@ -50,7 +32,7 @@ async  function parksData(){
           Welcome:{userEmail}
         </h1>
         <Button  href="/logout" onClick={() => this.props.deleteUser(user)}>DELETE USER</Button>
-        <Map />
+        <Map npsData={this.state} />
       </div>
     );
   }
