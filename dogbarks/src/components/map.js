@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -35,22 +35,33 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
+  const [state, setState] = useState([]);
 
+  useEffect(() => {
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        setState({
+          state: data,
+        })
+      )
+
+      .catch((err) => {
+        console.log(err);
+        alert("Something went wrong, try again!");
+      });
+  }, []);
 
   const mapRef = React.useRef();
 
   const _onViewportChange = (viewport) =>
     setViewPort({ ...viewport, transitionDuration: 1000 });
 
-
   return (
-    
     <div>
-    <Button  href="/logout">
-
-        LOG OUT
-
-        </Button>
+      <Button href="/logout">LOG OUT</Button>
 
       <ReactMapGL
         ref={mapRef}
@@ -88,4 +99,4 @@ const Map = () => {
   );
 };
 
-export default(Map);
+export default Map;
