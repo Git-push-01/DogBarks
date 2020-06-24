@@ -35,42 +35,24 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-  const [data, dataSet] = useState(null);
 
-  useEffect(() => {
+
+ const npsData = useEffect(() => {
+
     async function fetchMyAPI() {
       let response = await fetch(
         "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
       );
       response = await response.json();
       console.log(response);
-      dataSet({
-        data:response
-      })
+
     }
 
     fetchMyAPI()
   }, []);
 
-  const makeGeoJSON = (data) => {
-    console.log(data)
-    return {
-      type: "FeatureCollection",
-      features: data.map((feature) => {
-        return {
-          type: "Feature",
-          properties: {
-            id: feature.name,
-            value: feature.value,
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [feature.latitude, feature.longitude],
-          },
-        };
-      }),
-    };
-  };
+
+
 
   const mapRef = React.useRef();
 
@@ -112,8 +94,8 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
-        <Source type="geojson" data={data}>
-            <Layer {...makeGeoJSON} />
+        <Source type="geojson" data={npsData} >
+            <Layer   type='fill' />
           </Source>
       </ReactMapGL>
     </div>
