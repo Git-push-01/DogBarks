@@ -94,8 +94,8 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
-        <Source type="geojson" data={npsData} >
-            <Layer   type='fill' />
+        <Source  type="geojson" data={npsData} >
+            <Layer type="fill" />
           </Source>
       </ReactMapGL>
     </div>
