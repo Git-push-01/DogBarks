@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { GeolocateControl, NavigationControl } from "react-map-gl";
+import ReactMapGL, { GeolocateControl, NavigationControl, Source, Layer } from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
@@ -35,24 +35,42 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-  const [state, setState] = useState([]);
+  const [data, dataSet] = useState(null);
 
   useEffect(() => {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
-    )
-      .then((response) => response.json())
-      .then((data) =>
-        setState({
-          state: data,
-        })
-      )
+    async function fetchMyAPI() {
+      let response = await fetch(
+        "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
+      );
+      response = await response.json();
+      console.log(response);
+      dataSet({
+        data:response
+      })
+    }
 
-      .catch((err) => {
-        console.log(err);
-        alert("Something went wrong, try again!");
-      });
+    fetchMyAPI()
   }, []);
+
+  const makeGeoJSON = (data) => {
+    console.log(data)
+    return {
+      type: "FeatureCollection",
+      features: data.map((feature) => {
+        return {
+          type: "Feature",
+          properties: {
+            id: feature.name,
+            value: feature.value,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [feature.latitude, feature.longitude],
+          },
+        };
+      }),
+    };
+  };
 
   const mapRef = React.useRef();
 
@@ -94,6 +112,9 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
+        <Source type="geojson" data={data}>
+            <Layer {...makeGeoJSON} />
+          </Source>
       </ReactMapGL>
     </div>
   );

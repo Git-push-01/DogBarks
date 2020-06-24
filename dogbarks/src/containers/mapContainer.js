@@ -27,7 +27,7 @@ class MapContainer extends Component {
             fontWeight: "bolder",
           }}
         >
-          Welcome:{userEmail}
+        Welcome:{userEmail}
         </h1>
         <Button  href="/logout" onClick={() => this.props.deleteUser(user)}>DELETE USER</Button>
         <Map/>
