@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { GeolocateControl, NavigationControl, Source, Layer } from "react-map-gl";
+
+import MapGL, {
+  Source,
+  Layer,
+  GeolocateControl,
+  NavigationControl,
+} from "react-map-gl";
 import config from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
@@ -36,23 +42,18 @@ const Map = () => {
     maxPitch: 85,
   });
 
-
- const npsData = useEffect(() => {
-
+  const data = useEffect(() => {
     async function fetchMyAPI() {
       let response = await fetch(
         "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
       );
       response = await response.json();
-      console.log(response);
 
+      console.log(response);
     }
 
-    fetchMyAPI()
+    fetchMyAPI();
   }, []);
-
-
-
 
   const mapRef = React.useRef();
 
@@ -63,7 +64,7 @@ const Map = () => {
     <div>
       <Button href="/logout">LOG OUT</Button>
 
-      <ReactMapGL
+      <MapGL
         ref={mapRef}
         {...viewport}
         mapboxApiAccessToken={TOKEN}
@@ -94,10 +95,18 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
-        <Source  type="geojson" data={npsData} >
-            <Layer type="fill" />
-          </Source>
-      </ReactMapGL>
+        <Source id="points" type="geojson" data={data}/>
+          <Layer
+            id="points"
+            type="circle"
+            source="points"
+            paint={{
+              "circle-radius": 6,
+              "circle-color": "#1978c8",
+            }}
+          />
+
+      </MapGL>
     </div>
   );
 };
