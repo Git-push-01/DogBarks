@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { makeGeoJSON } from "../utils";
+import axios from "axios";
 
 import MapGL, {
   Source,
@@ -21,6 +23,9 @@ const geolocateStyle = {
 };
 
 const Map = () => {
+  const [getParks, setParks] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
@@ -42,18 +47,36 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  const data = useEffect(() => {
-    async function fetchMyAPI() {
-      let response = await fetch(
-        "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson"
-      );
-      response = await response.json();
-
+  useEffect(() => {
+    let isCancelled = false;
+    let source = axios.CancelToken.source();
+    function getMyAPI() {
+      return "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson";
+    }
+    async function fetchData() {
+      let response;
+      if (!isCancelled) {
+        response = await axios(getMyAPI());
+      }
       console.log(response);
+      setParks(response.data);
+      setLoading(false);
     }
 
-    fetchMyAPI();
+    console.log(data);
+
+    fetchData();
+
+    return () => {
+      isCancelled = true;
+      source.cancel("Cancelling in cleanup");
+    };
   }, []);
+
+  let data;
+  if (!loading) {
+    data = makeGeoJSON(getParks);
+  }
 
   const mapRef = React.useRef();
 
@@ -95,17 +118,16 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
-        <Source id="points" type="geojson" data={data}/>
-          <Layer
-            id="points"
-            type="circle"
-            source="points"
-            paint={{
-              "circle-radius": 6,
-              "circle-color": "#1978c8",
-            }}
-          />
-
+        <Source id="features" type="FeatureCollection" data={useEffect()} />
+        <Layer
+          id="FeatureCollection"
+          type="circle"
+          source="data"
+          paint={{
+            "circle-radius": 6,
+            "circle-color": "#1978c8",
+          }}
+        />
       </MapGL>
     </div>
   );
