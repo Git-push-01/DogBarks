@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeGeoJSON } from "../utils";
 import axios from "axios";
 
-import MapGL, {
+import ReactMapGL, {
   Source,
   Layer,
   GeolocateControl,
@@ -63,8 +63,6 @@ const Map = () => {
       setLoading(false);
     }
 
-    console.log(data);
-
     fetchData();
 
     return () => {
@@ -86,8 +84,10 @@ const Map = () => {
   return (
     <div>
       <Button href="/logout">LOG OUT</Button>
+      {loading && <h1>Loading</h1>}
+    {!loading && (
 
-      <MapGL
+      <ReactMapGL
         ref={mapRef}
         {...viewport}
         mapboxApiAccessToken={TOKEN}
@@ -118,17 +118,13 @@ const Map = () => {
           showUserLocation={true}
           position="top-left"
         />
-        <Source id="features" type="FeatureCollection" data={useEffect()} />
-        <Layer
-          id="FeatureCollection"
-          type="circle"
-          source="data"
-          paint={{
-            "circle-radius": 6,
-            "circle-color": "#1978c8",
-          }}
-        />
-      </MapGL>
+        {!loading && (
+        <Source  type="geojson" data={data}>
+        <Layer />
+        </Source>
+        )}
+      </ReactMapGL>
+       )}
     </div>
   );
 };

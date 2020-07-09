@@ -1,6 +1,4 @@
 {
-
-  
   "dependencies": {
     "@deck.gl/mapbox": "^8.1.7",
     "axios": "^0.19.2",

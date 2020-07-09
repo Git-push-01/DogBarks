@@ -1,16 +1,15 @@
-const makeGeoJSON = data => {
+const makeGeoJSON = (data) => {
   return {
     type: "FeatureCollection",
-    features: data.map(feature => {
+    features: data.features.map(feature => {
       return {
         type: "Feature",
         properties: {
-          id: feature.countryInfo?._id,
-          value: feature.cases,
+        name:feature.name
         },
         geometry: {
           type: "Point",
-          coordinates: [feature.countryInfo.long, feature.countryInfo.lat],
+          coordinates: [feature.long, feature.lat],
         },
       }
     }),
