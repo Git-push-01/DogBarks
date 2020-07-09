@@ -17,9 +17,9 @@ import { Button } from "react-bootstrap";
 const TOKEN = config.REACT_APP_TOKEN;
 
 const geolocateStyle = {
-  float: "left",
-  margin: "50px",
-  padding: "10px",
+  float: 'left',
+    margin: '50px',
+    padding: '10px'
 };
 
 const Map = () => {
@@ -29,9 +29,9 @@ const Map = () => {
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
-    latitude: 0,
-    longitude: 0,
-    zoom: 1,
+    latitude: 39.0997,
+    longitude: -94.5786,
+    zoom: 3,
     maxZoom: 8,
     minZoom: 0,
     bearing: 0,
@@ -97,7 +97,7 @@ const Map = () => {
         <GeolocateControl
           style={geolocateStyle}
           positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={false}
+          trackUserLocation={true}
           showUserLocation={true}
         />
         <div
@@ -119,8 +119,13 @@ const Map = () => {
           position="top-left"
         />
         {!loading && (
-        <Source  type="geojson" data={data}>
-        <Layer />
+        <Source type="geojson" data={data}>
+        <Layer id="point"
+          type="circle"
+          paint={{
+            'circle-radius': 10,
+            'circle-color': '#007cbf'
+          }}/>
         </Source>
         )}
       </ReactMapGL>
