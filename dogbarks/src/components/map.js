@@ -31,7 +31,7 @@ const Map = () => {
     height: 500,
     latitude: 39.0997,
     longitude: -94.5786,
-    zoom: 3,
+    zoom: 1,
     maxZoom: 8,
     minZoom: 0,
     bearing: 0,
