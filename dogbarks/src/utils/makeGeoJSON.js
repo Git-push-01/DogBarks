@@ -3,14 +3,14 @@ const makeGeoJSON = (data) => {
     type: "FeatureCollection",
     features: data.features.map(feature => {
       return {
-        'type': "Feature",
-        'properties': {
-          "id": feature.name,
-            "value": feature.value
+        type: "Feature",
+        properties: {
+          id: feature.name,
+            value: feature.value
         },
-        'geometry': {
-          'type': "Point",
-          "coordinates": [feature.long, feature.lat],
+        geometry: {
+          type: "Point",
+          coordinates: [feature.long, feature.lat],
         },
       }
     }),

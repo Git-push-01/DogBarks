@@ -8,7 +8,6 @@ import { Button } from "react-bootstrap";
 class MapContainer extends Component {
 
 
-
  componentDidMount() {
     this.props.fetchUser();
 }

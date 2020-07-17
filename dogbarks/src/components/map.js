@@ -17,9 +17,9 @@ import { Button } from "react-bootstrap";
 const TOKEN = config.REACT_APP_TOKEN;
 
 const geolocateStyle = {
-  float: 'left',
-    margin: '50px',
-    padding: '10px'
+  float: "left",
+  margin: "50px",
+  padding: "10px",
 };
 
 const Map = () => {
@@ -78,58 +78,53 @@ const Map = () => {
 
   const mapRef = React.useRef();
 
-  const _onViewportChange = (viewport) =>
-    setViewPort({ ...viewport, transitionDuration: 1000 });
+  const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
     <div>
       <Button href="/logout">LOG OUT</Button>
       {loading && <h1>Loading</h1>}
-    {!loading && (
-
-      <ReactMapGL
-        ref={mapRef}
-        {...viewport}
-        mapboxApiAccessToken={TOKEN}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
-        onViewportChange={_onViewportChange}
-      >
-        <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-          showUserLocation={true}
-        />
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            float: "left",
-            margin: "50px",
-            padding: "10px",
-          }}
-        >
-          <NavigationControl onViewportChange={_onViewportChange} />
-        </div>
-        <Geocoder
-          mapRef={mapRef}
-          onViewportChange={_onViewportChange}
+      {!loading && (
+        <ReactMapGL
+          ref={mapRef}
+          {...viewport}
           mapboxApiAccessToken={TOKEN}
-          showUserLocation={true}
-          position="top-left"
-        />
-        {!loading && (
-        <Source type="geojson" data={data}>
-        <Layer id="point"
-          type="circle"
-          paint={{
-            'circle-radius': 10,
-            'circle-color': '#007cbf'
-          }}/>
-        </Source>
-        )}
-      </ReactMapGL>
-       )}
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          onViewportChange={_onViewportChange}
+        >
+          <GeolocateControl
+            style={geolocateStyle}
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation={false}
+            showUserLocation={true}
+
+          />
+          <div
+            style={{
+              position: "absolute",
+              right: 0,
+              float: "left",
+              margin: "50px",
+              padding: "10px",
+            }}
+          >
+            <NavigationControl onViewportChange={_onViewportChange} />
+          </div>
+          <Geocoder
+            mapRef={mapRef}
+            onViewportChange={_onViewportChange}
+            autocomplete={true}
+            mapboxApiAccessToken={TOKEN}
+            showUserLocation={true}
+            position="top-left"
+          />
+          {!loading && (
+            <Source type="geojson" data={data}>
+              <Layer id="point" type="circle" />
+            </Source>
+          )}
+        </ReactMapGL>
+      )}
     </div>
   );
 };
