@@ -3,6 +3,7 @@ import { makeGeoJSON } from "../utils";
 import axios from "axios";
 
 import ReactMapGL, {
+   Marker,
   Source,
   Layer,
   GeolocateControl,
@@ -26,6 +27,7 @@ const Map = () => {
   const [getParks, setParks] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
+
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
@@ -44,8 +46,32 @@ const Map = () => {
     keyboard: true,
     doubleClickZoom: true,
     minPitch: 0,
-    maxPitch: 85,
+    maxPitch: 85
+
   });
+
+const   setUserLocation = () => {
+  navigator.geolocation.getCurrentPosition(position => {
+     let setUserLocation = {
+         lat: position.coords.latitude,
+         long: position.coords.longitude
+      };
+     let newViewport = {
+        height: "100vh",
+        width: "100vw",
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        zoom: 10
+      };
+      this.setState({
+        viewport: newViewport,
+        userLocation: setUserLocation
+     });
+
+  });
+
+}
+console.log(setUserLocation, "setUserLocation");
 
   useEffect(() => {
     let isCancelled = false;
@@ -78,7 +104,7 @@ const Map = () => {
 
   const mapRef = React.useRef();
 
-  const _onViewportChange = (viewport) => setViewPort({ ...viewport });
+   const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
     <div>
@@ -91,7 +117,9 @@ const Map = () => {
           mapboxApiAccessToken={TOKEN}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={_onViewportChange}
+
         >
+
           <GeolocateControl
             style={geolocateStyle}
             positionOptions={{ enableHighAccuracy: true }}
