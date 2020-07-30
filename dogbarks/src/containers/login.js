@@ -62,7 +62,6 @@ class Login extends Component {
     return (
       <div>
         <Form
-
           style={{
             display: "flex",
             flexDirection: "row",
