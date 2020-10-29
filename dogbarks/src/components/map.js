@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeGeoJSON } from "../utils";
 import axios from "axios";
-
+ import "mapbox-gl/dist/mapbox-gl.css"
 import ReactMapGL, {
   Source,
   Layer,
@@ -9,7 +9,6 @@ import ReactMapGL, {
   NavigationControl,
 } from "react-map-gl";
 import config from "../config";
-import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { Button } from "react-bootstrap";
