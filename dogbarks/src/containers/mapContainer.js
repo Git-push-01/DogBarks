@@ -13,7 +13,7 @@ class MapContainer extends Component {
 }
 
   render() {
-    console.log(this.props, " mapContainer delete Props");
+    // console.log(this.props, " mapContainer delete Props");
     const userEmail = this.props.user.email;
     const user = this.props.user.id;
 

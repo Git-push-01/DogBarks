@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const errors = validate(this.state.email, this.state.password);
     const isDisabled = Object.keys(errors).some((x) => errors[x]);
     const { email, password } = this.state;
@@ -129,6 +129,7 @@ class Login extends Component {
     );
   }
 }
+
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(

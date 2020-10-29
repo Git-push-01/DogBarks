@@ -3,7 +3,6 @@ import { makeGeoJSON } from "../utils";
 import axios from "axios";
 
 import ReactMapGL, {
-  Marker,
   Source,
   Layer,
   GeolocateControl,
@@ -24,7 +23,7 @@ const geolocateStyle = {
 };
 
 const Map = () => {
-  const [getParks, setParks] = useState(undefined);
+  const [getParks, setParks] = useState();
   const [loading, setLoading] = useState(true);
 
   const [viewport, setViewPort] = useState({
@@ -48,26 +47,7 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  // const setUserLocation = () => {
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     let setUserLocation = {
-  //       lat: position.coords.latitude,
-  //       long: position.coords.longitude,
-  //     };
-  //     let newViewport = {
-  //       height: "100vh",
-  //       width: "100vw",
-  //       latitude: position.coords.latitude,
-  //       longitude: position.coords.longitude,
-  //       zoom: 10,
-  //     };
-  //     this.setState({
-  //       viewport: newViewport,
-  //       userLocation: setUserLocation,
-  //     });
-  //   });
-  // };
-  // console.log(setUserLocation, "setUserLocation");
+
 
   useEffect(() => {
     let isCancelled = false;
@@ -80,7 +60,7 @@ const Map = () => {
       if (!isCancelled) {
         response = await axios(getMyAPI());
       }
-      console.log(response);
+       console.log(response);
       setParks(response.data);
       setLoading(false);
     }
@@ -94,6 +74,7 @@ const Map = () => {
   }, []);
 
   let data;
+// console.log(data);
   if (!loading) {
     data = makeGeoJSON(getParks);
   }
@@ -129,14 +110,14 @@ const Map = () => {
               padding: "10px",
             }}
           >
-            <NavigationControl onViewportChange={_onViewportChange} />
+             <NavigationControl onViewportChange={_onViewportChange} />
           </div>
           <Geocoder
             mapRef={mapRef}
             onViewportChange={_onViewportChange}
             autocomplete={true}
             mapboxApiAccessToken={TOKEN}
-            showUserLocation={true}
+             showUserLocation={true}
             position="top-left"
           />
           {!loading && (

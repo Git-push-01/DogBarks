@@ -13,7 +13,7 @@ export const loginUser = (user) => {
     fetch(`http://localhost:3000/api/v1/users/login`, data)
       .then((response) => {
         if (!response.ok) throw new Error(response.status);
-        else return response.json(console.log(response));
+        else return response.json();
       })
 
       .then((user) => {
@@ -73,7 +73,7 @@ export const fetchUser = (id) => {
       .then((response) => response.json())
       .then((user) => {
         sessionStorage.setItem("user", user.email);
-        console.log(user, "current user");
+        // console.log(user, "current user");
         dispatch({
           type: "SET_USER",
           payload: user
