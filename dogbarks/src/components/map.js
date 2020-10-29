@@ -47,8 +47,6 @@ const Map = () => {
     maxPitch: 85,
   });
 
-
-
   useEffect(() => {
     let isCancelled = false;
     let source = axios.CancelToken.source();
@@ -60,7 +58,7 @@ const Map = () => {
       if (!isCancelled) {
         response = await axios(getMyAPI());
       }
-       console.log(response);
+
       setParks(response.data);
       setLoading(false);
     }
@@ -74,7 +72,7 @@ const Map = () => {
   }, []);
 
   let data;
-// console.log(data);
+  // console.log(data);
   if (!loading) {
     data = makeGeoJSON(getParks);
   }
@@ -110,14 +108,14 @@ const Map = () => {
               padding: "10px",
             }}
           >
-             <NavigationControl onViewportChange={_onViewportChange} />
+            <NavigationControl onViewportChange={_onViewportChange} />
           </div>
           <Geocoder
             mapRef={mapRef}
             onViewportChange={_onViewportChange}
             autocomplete={true}
             mapboxApiAccessToken={TOKEN}
-             showUserLocation={true}
+            showUserLocation={true}
             position="top-left"
           />
           {!loading && (

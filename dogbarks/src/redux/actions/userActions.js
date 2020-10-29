@@ -1,5 +1,5 @@
 
-export const loginUser = (user) => {
+export  const  loginUser = (user) => {
   let data = {
     method: "POST",
     headers: {
@@ -10,15 +10,15 @@ export const loginUser = (user) => {
   };
 
   return (dispatch) => {
-    fetch(`http://localhost:3000/api/v1/users/login`, data)
+      fetch(`http://localhost:3000/api/v1/users/login`, data)
       .then((response) => {
         if (!response.ok) throw new Error(response.status);
-        else return response.json();
+        else return  response.json();
       })
 
-      .then((user) => {
+     .then((user) => {
         console.log(user.token, "user");
-        sessionStorage.setItem("token", user.token);
+       sessionStorage.setItem("token", user.token);
 
         dispatch({
           type: "SET_USER",
@@ -68,9 +68,9 @@ export const fetchUser = (id) => {
 
   };
 
-  return (dispatch) => {
+  return  (dispatch) => {
    fetch(`http://localhost:3000/api/v1/users/${id}`, data)
-      .then((response) => response.json())
+      .then((response) =>  response.json())
       .then((user) => {
         sessionStorage.setItem("user", user.email);
         // console.log(user, "current user");
