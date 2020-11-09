@@ -28,32 +28,24 @@ class Login extends Component {
   }
 
   onChange(e) {
-    const field = e.target.name;
-    let state = this.state;
-
-    state[field] = e.target.value;
-
-    this.setState(state);
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   onSubmit(e) {
     e.preventDefault();
     const user = {
-           email: this.state.email,
-           password: this.state.password,
-       }
-
-    this.props.loginUser(user)
-    if(this.props) {
-
-        this.props.history.push('/mapContainer');
-    }
-
-    this.setState({
-      email: "",
-      password: "",
-    });
+      email: this.state.email,
+      password: this.state.password,
+    };
+    this.props.loginUser(user, this.props.isAuthenticated, this.props.history.push("/mapContainer"))
   }
+
+
+
+
+
 
 
   canBeSubmitted() {
@@ -138,7 +130,6 @@ class Login extends Component {
     );
   }
 }
-
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(

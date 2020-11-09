@@ -1,4 +1,4 @@
-
+import jwt_decode from 'jwt-decode'
 export const loginUser = (user) => {
   let data = {
     method: "POST",
@@ -17,16 +17,17 @@ export const loginUser = (user) => {
       })
 
        .then(async (user) => {
-        console.log(user.token, "user");
+         const decoded = jwt_decode(user.token);
+
 
        await sessionStorage.setItem("token", user.token);
 
-        dispatch({
-          type: "SET_USER",
-          payload: user.token
-        });
-      })
+       dispatch("SET_USER"(decoded));
 
+       console.log()
+
+
+})
 
       .catch((err) => err);
   };
@@ -55,35 +56,35 @@ export const signupUser = (user) => {
 
         // callback()
       })
-      .catch((err) => err);
+      .catch(error => alert('Error! ' + error.message));
   };
 };
-export const fetchUser = (id) => {
-  let data = {
-    method: "GET",
-    headers: {
-      'Accept': "application/json",
-      "Content-Type": "application/json",
-      "x-access-token": sessionStorage.token,
-
-    },
-
-  };
-
-  return  (dispatch) => {
-   fetch(`http://localhost:3001/api/v1/users/${id}`, data)
-      .then(async (response) => await  response.json())
-      .then(async (user) => {
-      await  sessionStorage.setItem("user", user.email);
-        // console.log(user, "current user");
-        dispatch({
-          type: "SET_USER",
-          payload: user
-        });
-      })
-      .catch(error => alert('Error! ' + error.message))
-  };
-};
+// export const fetchUser = (id) => {
+//   let data = {
+//     method: "GET",
+//     headers: {
+//       'Accept': "application/json",
+//       "Content-Type": "application/json",
+//       "x-access-token": sessionStorage.token
+//
+//     },
+//
+//   };
+//
+//   return  (dispatch) => {
+//    fetch(`http://localhost:3001/api/v1/users/${id}`, data)
+//       .then(async (response) => await  response.json())
+//       .then(async (user) => {
+//       await  sessionStorage.setItem("user", user.email);
+//
+//         dispatch({
+//           type: "SET_USER",
+//           payload: user
+//         });
+//       })
+//       .catch(error => alert('Error! ' + error.message))
+//   };
+// };
 
 export const deleteUser = (id) => {
   let data = {
