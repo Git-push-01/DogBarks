@@ -38,14 +38,23 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    const user = {
+           email: this.state.email,
+           password: this.state.password,
+       }
 
-    this.props.loginUser(this.state, this.props.history.push("/mapContainer"));
+    this.props.loginUser(user)
+    if(this.props) {
+
+        this.props.history.push('/mapContainer');
+    }
 
     this.setState({
       email: "",
       password: "",
     });
   }
+
 
   canBeSubmitted() {
     const errors = validate(this.state.email, this.state.password);

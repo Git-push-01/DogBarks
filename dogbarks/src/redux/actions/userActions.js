@@ -1,5 +1,5 @@
 
-export  const  loginUser = (user) => {
+export const loginUser = (user) => {
   let data = {
     method: "POST",
     headers: {
@@ -9,22 +9,24 @@ export  const  loginUser = (user) => {
     body: JSON.stringify(user),
   };
 
-  return (dispatch) => {
-      fetch(`http://localhost:3000/api/v1/users/login`, data)
-      .then((response) => {
+  return   (dispatch) => {
+       fetch(`http://localhost:3001/api/v1/users/login`, data)
+       .then( async (response) => {
         if (!response.ok) throw new Error(response.status);
-        else return  response.json();
+        else return  await response.json();
       })
 
-     .then((user) => {
+       .then(async (user) => {
         console.log(user.token, "user");
-       sessionStorage.setItem("token", user.token);
+
+       await sessionStorage.setItem("token", user.token);
 
         dispatch({
           type: "SET_USER",
           payload: user.token
         });
       })
+
 
       .catch((err) => err);
   };
@@ -41,10 +43,10 @@ export const signupUser = (user) => {
   };
 
   return (dispatch) => {
-    fetch(`http://localhost:3000/api/v1/users/signup`, data)
-      .then((response) => response.json())
-      .then((user) => {
-        sessionStorage.setItem("token", user.token);
+    fetch(`http://localhost:3001/api/v1/users/signup`, data)
+      .then(async (response) => await response.json())
+      .then(async (user) => {
+      await  sessionStorage.setItem("token", user.token);
 
         dispatch({
           type: "SET_USER",
@@ -69,10 +71,10 @@ export const fetchUser = (id) => {
   };
 
   return  (dispatch) => {
-   fetch(`http://localhost:3000/api/v1/users/${id}`, data)
-      .then((response) =>  response.json())
-      .then((user) => {
-        sessionStorage.setItem("user", user.email);
+   fetch(`http://localhost:3001/api/v1/users/${id}`, data)
+      .then(async (response) => await  response.json())
+      .then(async (user) => {
+      await  sessionStorage.setItem("user", user.email);
         // console.log(user, "current user");
         dispatch({
           type: "SET_USER",
@@ -97,9 +99,9 @@ export const deleteUser = (id) => {
 
   return dispatch => {
     fetch(`http://localhost:3000/api/v1/users/${id}`, data)
-      .then((response) => response.json())
-      .then(user =>
-        dispatch({
+      .then(async (response) => await response.json())
+      .then( async (user) =>
+         await dispatch({
           type: "DELETE_USER",
           payload: user.id,
 
