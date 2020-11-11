@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import Map from "../components/map";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { deleteUser, loginUser } from "../redux/actions/userActions";
+import { deleteUser, fetchUser } from "../redux/actions/userActions";
 import { Button } from "react-bootstrap";
 
 class MapContainer extends Component {
 
 
  componentDidMount() {
-    this.props.loginUser();
-  
+    this.props.fetchUser();
+
 }
 
 
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      loginUser,
+      fetchUser,
       deleteUser,
     },
     dispatch

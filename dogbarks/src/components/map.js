@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { makeGeoJSON } from "../utils";
-import axios from "axios";
+import React, { useState } from "react";
  import "mapbox-gl/dist/mapbox-gl.css"
 import ReactMapGL, {
-  Source,
-  Layer,
   GeolocateControl,
   NavigationControl,
 } from "react-map-gl";
@@ -22,7 +18,7 @@ const geolocateStyle = {
 };
 
 const Map = () => {
-  const [getParks, setParks] = useState();
+
   const [loading, setLoading] = useState(true);
 
   const [viewport, setViewPort] = useState({
@@ -46,34 +42,34 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  useEffect(() => {
-    let isCancelled = false;
-    let source = axios.CancelToken.source();
-    function getMyAPI() {
-      return "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson";
-    }
-    async function fetchData() {
-      let response;
-      if (!isCancelled) {
-        response = await axios(getMyAPI());
-      }
+  // useEffect(() => {
+  //   let isCancelled = false;
+  //   let source = axios.CancelToken.source();
+  //   function getMyAPI() {
+  //     return "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson";
+  //   }
+  //   async function fetchData() {
+  //     let response;
+  //     if (!isCancelled) {
+  //       response = await axios(getMyAPI());
+  //     }
+  //
+  //     setParks(response.data);
+  //     setLoading(false);
+  //   }
+  //
+  //   fetchData();
+  //
+  //   return () => {
+  //     isCancelled = true;
+  //     source.cancel("Cancelling in cleanup");
+  //   };
+  // }, []);
 
-      setParks(response.data);
-      setLoading(false);
-    }
 
-    fetchData();
 
-    return () => {
-      isCancelled = true;
-      source.cancel("Cancelling in cleanup");
-    };
-  }, []);
-
-  let data;
-  // console.log(data);
-  if (!loading) {
-    data = makeGeoJSON(getParks);
+  if (loading) {
+   setLoading(false);
   }
 
   const mapRef = React.useRef();
@@ -117,11 +113,7 @@ const Map = () => {
             showUserLocation={true}
             position="top-left"
           />
-          {!loading && (
-            <Source type="geojson" data={data}>
-              <Layer id="point" type="circle" />
-            </Source>
-          )}
+
         </ReactMapGL>
       )}
     </div>
