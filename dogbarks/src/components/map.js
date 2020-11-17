@@ -1,4 +1,4 @@
-import React, { useState, setState } from "react";
+import React, { useState, setState, useEffect } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL, {
   Marker,
@@ -19,8 +19,7 @@ const geolocateStyle = {
 };
 
 const Map = () => {
-  const [user, setUser] = useState({});
-
+  const [userPosition, setUserPosition] = useState(null);
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
@@ -41,26 +40,17 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
+  useEffect(() => {
+    setUserLocation();
+  }, []);
 
-  const setUserLocation = () => {
+  function setUserLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
-      let setUser = {
-        lat: position.coords.latitude,
-        long: position.coords.longitude,
-      };
-      let newViewport = {
-        height: "100vh",
-        width: "100vw",
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        zoom: 11,
-      };
-      this.setState({
-        viewport: newViewport,
-        user: setUser,
-      });
+      const { latitude, longitude } = position.coords;
+      setViewPort({ ...viewport, latitude, longitude, zoom: 15});
+      setUserPosition({ latitude, longitude });
     });
-  };
+  }
 
   const mapRef = React.useRef();
 
@@ -79,16 +69,14 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={(viewport) => setViewPort({ ...viewport })}
       >
-        {Object.keys(user).length !== 0 ? (
+        {userPosition !== null ? (
           <Marker
-            latitude={user.latitude}
-            longitude={user.longitude}
-          >
-            <div>I'm Here!!!</div>
-          </Marker>
-        ) : (
-          <div></div>
-        )}
+            latitude={userPosition.latitude}
+            longitude={userPosition.longitude}
+            offsetLeft={-19}
+            offsetTop={-37}
+          ><div>I'm Here!!!</div></Marker>
+        ) : null}
         <GeolocateControl
           style={geolocateStyle}
           positionOptions={{ enableHighAccuracy: true }}
