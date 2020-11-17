@@ -1,6 +1,7 @@
-import React, { useState } from "react";
- import "mapbox-gl/dist/mapbox-gl.css"
+import React, { useState, setState } from "react";
+import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL, {
+  Marker,
   GeolocateControl,
   NavigationControl,
 } from "react-map-gl";
@@ -18,8 +19,7 @@ const geolocateStyle = {
 };
 
 const Map = () => {
-
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({})
 
   const [viewport, setViewPort] = useState({
     width: "100%",
@@ -41,53 +41,53 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-
-  // useEffect(() => {
-  //   let isCancelled = false;
-  //   let source = axios.CancelToken.source();
-  //   function getMyAPI() {
-  //     return "https://cors-anywhere.herokuapp.com/https://www.nps.gov/lib/npmap.js/4.0.0/examples/data/national-parks.geojson";
-  //   }
-  //   async function fetchData() {
-  //     let response;
-  //     if (!isCancelled) {
-  //       response = await axios(getMyAPI());
-  //     }
-  //
-  //     setParks(response.data);
-  //     setLoading(false);
-  //   }
-  //
-  //   fetchData();
-  //
-  //   return () => {
-  //     isCancelled = true;
-  //     source.cancel("Cancelling in cleanup");
-  //   };
-  // }, []);
+  const setUserLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let setUser = {
+        lat: position.coords.latitude,
+        long: position.coords.longitude,
+      };
+      let newViewport = {
+        height: "100vh",
+        width: "100vw",
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        zoom: 3,
+      };
+      this.setState({
+        viewport: newViewport,
+        user: setUser,
+      });
+    });
+  };
 
 
-
-  if (loading) {
-   setLoading(false);
-  }
 
   const mapRef = React.useRef();
 
-  const _onViewportChange = (viewport) => setViewPort({ ...viewport });
+   const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
     <div>
       <Button href="/logout">LOG OUT</Button>
-      {loading && <h1>Loading</h1>}
-      {!loading && (
+
+        <Button onClick={()=> setUserLocation()}>My Location</Button>
+
+
         <ReactMapGL
           ref={mapRef}
           {...viewport}
           mapboxApiAccessToken={TOKEN}
           mapStyle="mapbox://styles/mapbox/streets-v11"
-          onViewportChange={_onViewportChange}
+          onViewportChange={viewport => setViewPort({ ...viewport })}
         >
+          {Object.keys(user).length !== 0 ? (
+            <Marker latitude={()=> user()} longitude={()=> user()}>
+              <div>I'm Here!!!</div>
+            </Marker>
+          ) : (
+            <div></div>
+          )}
           <GeolocateControl
             style={geolocateStyle}
             positionOptions={{ enableHighAccuracy: true }}
@@ -113,9 +113,8 @@ const Map = () => {
             showUserLocation={true}
             position="top-left"
           />
-
         </ReactMapGL>
-      )}
+
     </div>
   );
 };
