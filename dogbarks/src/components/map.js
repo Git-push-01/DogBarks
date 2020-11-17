@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, setState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL, {
   Marker,
@@ -19,7 +19,7 @@ const geolocateStyle = {
 };
 
 const Map = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
 
   const [viewport, setViewPort] = useState({
     width: "100%",
@@ -42,7 +42,7 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  const  setUserLocation = () => {
+  const setUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let setUser = {
         lat: position.coords.latitude,
@@ -53,72 +53,68 @@ const Map = () => {
         width: "100vw",
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        zoom: 3,
+        zoom: 11,
       };
       this.setState({
-        viewport:newViewport,
-        user:setUser
-)}
+        viewport: newViewport,
+        user: setUser,
+      });
     });
-    };
-
-
-
-
+  };
 
   const mapRef = React.useRef();
 
-   const _onViewportChange = (viewport) => setViewPort({ ...viewport });
+  const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
-
     <div>
       <Button href="/logout">LOG OUT</Button>
 
-        <Button onClick={()=> setUserLocation()}>My Location</Button>
+      <Button onClick={() => setUserLocation()}>My Location</Button>
 
-
-        <ReactMapGL
-          ref={mapRef}
-          {...viewport}
-          mapboxApiAccessToken={TOKEN}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-          onViewportChange={viewport => setViewPort({ ...viewport })}
-        >
-          {Object.keys(user).length !== 0 ? (
-            <Marker latitude={user.lat} longitude={user.long}>
-              <div>I'm Here!!!</div>
-            </Marker>
-          ) : (
-            <div></div>
-          )}
-          <GeolocateControl
-            style={geolocateStyle}
-            positionOptions={{ enableHighAccuracy: true }}
-            trackUserLocation={false}
-            showUserLocation={true}
-          />
-          <div
-            style={{
-              position: "absolute",
-              right: 0,
-              float: "left",
-              margin: "50px",
-              padding: "10px",
-            }}
+      <ReactMapGL
+        ref={mapRef}
+        {...viewport}
+        mapboxApiAccessToken={TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+        onViewportChange={(viewport) => setViewPort({ ...viewport })}
+      >
+        {Object.keys(user).length !== 0 ? (
+          <Marker
+            latitude={user.latitude}
+            longitude={user.longitude}
           >
-            <NavigationControl onViewportChange={_onViewportChange} />
-          </div>
-          <Geocoder
-            mapRef={mapRef}
-            onViewportChange={_onViewportChange}
-            autocomplete={true}
-            mapboxApiAccessToken={TOKEN}
-            showUserLocation={true}
-            position="top-left"
-          />
-        </ReactMapGL>
-
+            <div>I'm Here!!!</div>
+          </Marker>
+        ) : (
+          <div></div>
+        )}
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={false}
+          showUserLocation={true}
+        />
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            float: "left",
+            margin: "50px",
+            padding: "10px",
+          }}
+        >
+          <NavigationControl onViewportChange={_onViewportChange} />
+        </div>
+        <Geocoder
+          mapRef={mapRef}
+          onViewportChange={_onViewportChange}
+          autocomplete={true}
+          mapboxApiAccessToken={TOKEN}
+          showUserLocation={true}
+          position="top-left"
+        />
+      </ReactMapGL>
     </div>
   );
 };
