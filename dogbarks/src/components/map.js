@@ -1,4 +1,4 @@
-import React, { useState, setState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL, {
   Marker,
@@ -41,7 +41,8 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-  const setUserLocation = () => {
+
+  const  setUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let setUser = {
         lat: position.coords.latitude,
@@ -55,11 +56,13 @@ const Map = () => {
         zoom: 3,
       };
       this.setState({
-        viewport: newViewport,
-        user: setUser,
-      });
+        viewport:newViewport,
+        user:setUser
+)}
     });
-  };
+    };
+
+
 
 
 
@@ -68,6 +71,7 @@ const Map = () => {
    const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
+
     <div>
       <Button href="/logout">LOG OUT</Button>
 
@@ -82,7 +86,7 @@ const Map = () => {
           onViewportChange={viewport => setViewPort({ ...viewport })}
         >
           {Object.keys(user).length !== 0 ? (
-            <Marker latitude={()=> user()} longitude={()=> user()}>
+            <Marker latitude={user.lat} longitude={user.long}>
               <div>I'm Here!!!</div>
             </Marker>
           ) : (
