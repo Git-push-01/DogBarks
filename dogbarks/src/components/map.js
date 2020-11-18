@@ -1,4 +1,4 @@
-import React, { useState, setState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGL, {
   Marker,
@@ -9,6 +9,7 @@ import config from "../config";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 const TOKEN = config.REACT_APP_TOKEN;
 
@@ -20,6 +21,7 @@ const geolocateStyle = {
 
 const Map = () => {
   const [userPosition, setUserPosition] = useState(null);
+  const [data, setData] = useState({ parks: [] });
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
@@ -41,16 +43,34 @@ const Map = () => {
     maxPitch: 85,
   });
   useEffect(() => {
-    setUserLocation();
-  }, []);
+    setUserLocation()
+  });
 
   function setUserLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setViewPort({ ...viewport, latitude, longitude, zoom: 15});
-      setUserPosition({ latitude, longitude });
+      setUserPosition({ longitude, latitude});
     });
   }
+useEffect(() => {
+  const credentials = "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2"
+  const location = kjkj
+  const query = "Dog Park"
+
+
+    const fetchData = async () => {
+      const result = await axios.get(`https://api.foursquare.com/v2/venues/search?ll=${location}&query=${query}&v=20181025&${credentials}`)
+
+       await setData(result);
+
+    };
+fetchData()
+  },[]);
+
+console.log(data)
+
+
 
   const mapRef = React.useRef();
 
@@ -71,6 +91,7 @@ const Map = () => {
       >
         {userPosition !== null ? (
           <Marker
+
             latitude={userPosition.latitude}
             longitude={userPosition.longitude}
             offsetLeft={-19}
