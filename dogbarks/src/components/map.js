@@ -50,12 +50,15 @@ const Map = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setViewPort({ ...viewport, latitude, longitude, zoom: 15});
-      setUserPosition({ longitude, latitude});
+      setUserPosition({ latitude, longitude});
     });
   }
+
 useEffect(() => {
   const credentials = "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2"
-  const location = kjkj
+
+  const location= `37.7749,-122.4194`
+
   const query = "Dog Park"
 
 
@@ -65,6 +68,8 @@ useEffect(() => {
        await setData(result);
 
     };
+
+
 fetchData()
   },[]);
 
