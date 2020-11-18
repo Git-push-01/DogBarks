@@ -43,39 +43,36 @@ const Map = () => {
     maxPitch: 85,
   });
   useEffect(() => {
-    setUserLocation()
+  setUserLocation();
   });
 
-  function setUserLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
+  const  setUserLocation= async () => {
+  await navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      setViewPort({ ...viewport, latitude, longitude, zoom: 15});
-      setUserPosition({ latitude, longitude});
+      setViewPort({ ...viewport, latitude, longitude, zoom: 15 });
+      setUserPosition({ latitude, longitude });
     });
   }
 
-useEffect(() => {
-  const credentials = "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2"
+  useEffect(() => {
+    const credentials =
+      "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2";
 
-  const location= `37.7749,-122.4194`
+    const location = `37.7749,-122.4194`;
 
-  const query = "Dog Park"
-
+    const query = "Dog Park";
 
     const fetchData = async () => {
-      const result = await axios.get(`https://api.foursquare.com/v2/venues/search?ll=${location}&query=${query}&v=20181025&${credentials}`)
-
-       await setData(result);
-
+      const result = await axios.get(
+        `https://api.foursquare.com/v2/venues/search?ll=${location}&query=${query}&v=20181025&${credentials}`
+      );
+      await setData(result.data.response.venues);
     };
 
+    fetchData();
+  }, []);
 
-fetchData()
-  },[]);
-
-console.log(data)
-
-
+  console.log(data);
 
   const mapRef = React.useRef();
 
@@ -96,12 +93,13 @@ console.log(data)
       >
         {userPosition !== null ? (
           <Marker
-
             latitude={userPosition.latitude}
             longitude={userPosition.longitude}
             offsetLeft={-19}
             offsetTop={-37}
-          ><div>I'm Here!!!</div></Marker>
+          >
+            <div>I'm Here!!!</div>
+          </Marker>
         ) : null}
         <GeolocateControl
           style={geolocateStyle}
