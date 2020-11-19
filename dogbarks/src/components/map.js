@@ -42,9 +42,6 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-  // useEffect(() => {
-  // setUserLocation();
-  // });
 
   const setUserLocation = async () => {
     await navigator.geolocation.getCurrentPosition((position) => {
@@ -55,18 +52,10 @@ const Map = () => {
   };
 
   useEffect(() => {
-    const setUserLocation = async () => {
-      await navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setViewPort({ ...viewport, latitude, longitude, zoom: 15 });
-        setUserPosition({ latitude, longitude });
-      });
-    };
-
     const credentials =
       "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2";
 
-    const location = navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
 
       const query = "Dog Park";
@@ -79,7 +68,7 @@ const Map = () => {
       };
       fetchData();
     });
-  }, []);
+  });
 
   console.log(data);
 
@@ -110,12 +99,7 @@ const Map = () => {
             <div>I'm Here!!!</div>
           </Marker>
         ) : null}
-        <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={false}
-          showUserLocation={true}
-        />
+
         <div
           style={{
             position: "absolute",
