@@ -42,34 +42,43 @@ const Map = () => {
     minPitch: 0,
     maxPitch: 85,
   });
-  useEffect(() => {
-  setUserLocation();
-  });
+  // useEffect(() => {
+  // setUserLocation();
+  // });
 
-  const  setUserLocation= async () => {
-  await navigator.geolocation.getCurrentPosition((position) => {
+  const setUserLocation = async () => {
+    await navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setViewPort({ ...viewport, latitude, longitude, zoom: 15 });
       setUserPosition({ latitude, longitude });
     });
-  }
+  };
 
   useEffect(() => {
+    const setUserLocation = async () => {
+      await navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setViewPort({ ...viewport, latitude, longitude, zoom: 15 });
+        setUserPosition({ latitude, longitude });
+      });
+    };
+
     const credentials =
       "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2";
 
-    const location = `37.7749,-122.4194`;
+    const location = navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
 
-    const query = "Dog Park";
+      const query = "Dog Park";
 
-    const fetchData = async () => {
-      const result = await axios.get(
-        `https://api.foursquare.com/v2/venues/search?ll=${location}&query=${query}&v=20181025&${credentials}`
-      );
-      await setData(result.data.response.venues);
-    };
-
-    fetchData();
+      const fetchData = async () => {
+        const result = await axios.get(
+          `https://api.foursquare.com/v2/venues/search?ll=${latitude},${longitude}&query=${query}&v=20181025&${credentials}`
+        );
+        await setData(result.data.response.venues);
+      };
+      fetchData();
+    });
   }, []);
 
   console.log(data);
