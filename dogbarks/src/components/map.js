@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import ReactMapGL, { Marker, NavigationControl } from "react-map-gl";
+import ReactMapGL, { Marker, NavigationControl} from "react-map-gl";
 import config from "../config";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import axios from "axios";
-
+import marker from '../images/marker.png'
+import userMarker from '../images/userMarker.png'
 const TOKEN = config.REACT_APP_TOKEN;
 
 const Map = () => {
   const [userPosition, setUserPosition] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({ parks: [] });
+  const [data, setData] = useState(null);
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
@@ -54,17 +55,20 @@ const Map = () => {
         const result = await axios.get(
           `https://api.foursquare.com/v2/venues/search?ll=${latitude},${longitude}&query=${query}&v=20181025&${credentials}`
         );
-        await setData(result.data.response.venues.map((item, i) => ({
+        await setData(
+          result.data.response.venues.map((item, i) => ({
+            parkId:item.id,
             name: item.name,
             latitude: item.location.lat,
             longitude: item.location.lng,
-          })));
+          }))
+        );
         await setLoading(false);
       };
-       fetchData();
+      fetchData();
     });
-  }, []);
-  console.log(data);
+  }, [])
+  console.log(data)
 
 
   const mapRef = React.useRef();
@@ -76,6 +80,8 @@ const Map = () => {
       <Button href="/logout">LOG OUT</Button>
 
       <Button onClick={() => setUserLocation()}>My Location</Button>
+      {loading && <h1>Loading Parks</h1>}
+    {!loading && (
 
       <ReactMapGL
         ref={mapRef}
@@ -84,6 +90,16 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={(viewport) => setViewPort({ ...viewport })}
       >
+      {data.map((park, i) => (
+       <Marker
+         key={park.parkId}
+         latitude={park.latitude}
+         longitude={park.longitude}
+       >
+       <Image src={marker} fluid />
+       </Marker>
+     ))}
+
         {userPosition !== null ? (
           <Marker
             latitude={userPosition.latitude}
@@ -91,11 +107,9 @@ const Map = () => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <div>I'm Here!!!</div>
+             <Image src={userMarker} fluid />
           </Marker>
         ) : null}
-
-
         <div
           style={{
             position: "absolute",
@@ -116,10 +130,9 @@ const Map = () => {
           position="top-left"
         />
       </ReactMapGL>
+        )}
     </Container>
   );
 };
-
-
 
 export default Map;
