@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import ReactMapGL, {
-  Marker,
-  GeolocateControl,
-  NavigationControl,
-} from "react-map-gl";
+import ReactMapGL, { Marker, NavigationControl } from "react-map-gl";
 import config from "../config";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import axios from "axios";
 
 const TOKEN = config.REACT_APP_TOKEN;
 
-const geolocateStyle = {
-  float: "left",
-  margin: "50px",
-  padding: "10px",
-};
-
 const Map = () => {
   const [userPosition, setUserPosition] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({ parks: [] });
   const [viewport, setViewPort] = useState({
     width: "100%",
@@ -43,8 +34,8 @@ const Map = () => {
     maxPitch: 85,
   });
 
-  const setUserLocation = async () => {
-    await navigator.geolocation.getCurrentPosition((position) => {
+  const setUserLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setViewPort({ ...viewport, latitude, longitude, zoom: 15 });
       setUserPosition({ latitude, longitude });
@@ -52,32 +43,36 @@ const Map = () => {
   };
 
   useEffect(() => {
-    const credentials =
-      "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=YRPLTXCSHNV4OKVKJUZ3FHHV33OAQBN1A3DKM0KMGGINTGL2";
-
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
 
       const query = "Dog Park";
+      const credentials =
+        "client_id=WTWMKV24D404LHL133TPFGTWA2SVZJD13H0Q2UAKC1LYGWMS&client_secret=1H10H4LQRGIGB45J4TMGYRC3VA1V0CBJITO1J2LAD5GZH4YN";
 
       const fetchData = async () => {
         const result = await axios.get(
           `https://api.foursquare.com/v2/venues/search?ll=${latitude},${longitude}&query=${query}&v=20181025&${credentials}`
         );
-        await setData(result.data.response.venues);
+        await setData(result.data.response.venues.map((item, i) => ({
+            name: item.name,
+            latitude: item.location.lat,
+            longitude: item.location.lng,
+          })));
+        await setLoading(false);
       };
-      fetchData();
+       fetchData();
     });
-  });
-
+  }, []);
   console.log(data);
+
 
   const mapRef = React.useRef();
 
   const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
-    <div>
+    <Container>
       <Button href="/logout">LOG OUT</Button>
 
       <Button onClick={() => setUserLocation()}>My Location</Button>
@@ -100,6 +95,7 @@ const Map = () => {
           </Marker>
         ) : null}
 
+
         <div
           style={{
             position: "absolute",
@@ -120,8 +116,10 @@ const Map = () => {
           position="top-left"
         />
       </ReactMapGL>
-    </div>
+    </Container>
   );
 };
+
+
 
 export default Map;
