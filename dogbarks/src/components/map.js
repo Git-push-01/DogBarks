@@ -98,7 +98,7 @@ const Map = () => {
          longitude={park.longitude}
 
        >
-       <Image src={"https://ss3.4sqi.net/img/categories_v2/parks_outdoors/dogrun_4bf58dd8d48988d1e5941735.png"} fluid />
+       <Image src={"https://ss3.4sqi.net/img/categories_v2/parks_outdoors/dogrun_bg_32.png"} fluid />
        </Marker>
      ))}
 
@@ -106,8 +106,7 @@ const Map = () => {
           <Marker
             latitude={userPosition.latitude}
             longitude={userPosition.longitude}
-            offsetLeft={-19}
-            offsetTop={-37}
+          
           >
              <Image src={userMarker} fluid />
           </Marker>
