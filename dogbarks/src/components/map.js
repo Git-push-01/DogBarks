@@ -55,12 +55,13 @@ const Map = () => {
         const result = await axios.get(
           `https://api.foursquare.com/v2/venues/search?ll=${latitude},${longitude}&query=${query}&v=20181025&${credentials}`
         );
+        console.log(result);
         await setData(
           result.data.response.venues.map((item, i) => ({
             parkId:item.id,
             name: item.name,
             latitude: item.location.lat,
-            longitude: item.location.lng,
+            longitude: item.location.lng
           }))
         );
         await setLoading(false);
@@ -95,8 +96,9 @@ const Map = () => {
          key={park.parkId}
          latitude={park.latitude}
          longitude={park.longitude}
+
        >
-       <Image src={marker} fluid />
+       <Image src={"https://ss3.4sqi.net/img/categories_v2/parks_outdoors/dogrun_4bf58dd8d48988d1e5941735.png"} fluid />
        </Marker>
      ))}
 
