@@ -11,6 +11,7 @@ import userMarker from '../images/userMarker.png'
 const TOKEN = config.REACT_APP_TOKEN;
 
 const Map = () => {
+// setting up state for user loacation to null
   const [userPosition, setUserPosition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -106,7 +107,7 @@ const Map = () => {
           <Marker
             latitude={userPosition.latitude}
             longitude={userPosition.longitude}
-          
+
           >
              <Image src={userMarker} fluid />
           </Marker>
