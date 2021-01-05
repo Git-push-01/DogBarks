@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@deck.gl/mapbox": "^8.1.7",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "d3": "^3.5.17",
     "d3-ease": "^1.0.6",
