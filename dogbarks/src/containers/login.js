@@ -38,7 +38,7 @@ class Login extends Component {
     const user = {
       email: this.state.email,
       password: this.state.password,
-    };
+    }
     this.props.loginUser(user, this.props.history.push("/mapContainer"))
   }
 
