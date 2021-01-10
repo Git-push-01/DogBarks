@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "audit": "0.0.6",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "caniuse-lite": "^1.0.30001173",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
