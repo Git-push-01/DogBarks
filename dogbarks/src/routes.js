@@ -10,13 +10,13 @@ import Signup from "./containers/signup";
 import MapContainer from "./containers/mapContainer";
 
 
-console.log(sessionStorage.token, "user test");
-const logIn = () => {
-sessionStorage.setItem("token", sessionStorage.token)
-  return <Redirect to="/mapContainer" />
-
-
-}
+// console.log(sessionStorage.token, "user test");
+// const logIn = () => {
+// sessionStorage.setItem("token", sessionStorage.token)
+//   return <Redirect to="/mapContainer" />
+//
+//
+// }
 
 const logout = () => {
   sessionStorage.clear();
@@ -29,7 +29,7 @@ export default (
       <Route path="/logout" component={() => logout()} />
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup} />
-      <Route exact path="/mapContainer" component={() => logIn()} />
+      <Route exact path="/mapContainer" component={MapContainer}/>
     </Switch>
   </Router>
 );

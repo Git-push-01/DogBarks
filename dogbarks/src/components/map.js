@@ -6,7 +6,7 @@ import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { Button, Container, Image } from "react-bootstrap";
 import axios from "axios";
-import marker from '../images/marker.png'
+
 import userMarker from '../images/userMarker.png'
 const TOKEN = config.REACT_APP_TOKEN;
 
@@ -14,13 +14,13 @@ const Map = () => {
 // setting up state for user loacation to null
   const [userPosition, setUserPosition] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 500,
-    latitude: 39.0997,
-    longitude: -94.5786,
-    zoom: 1,
+    latitude: 40.783058,
+    longitude: -73.971252,
+    zoom: 3,
     maxZoom: 8,
     minZoom: 0,
     bearing: 0,
