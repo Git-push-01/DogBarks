@@ -16,7 +16,7 @@ const Map = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [viewport, setViewPort] = useState({
-    width: "100%",
+    width: 1000,
     height: 500,
     latitude: 40.783058,
     longitude: -73.971252,
@@ -78,8 +78,9 @@ const Map = () => {
   const _onViewportChange = (viewport) => setViewPort({ ...viewport });
 
   return (
+    
     <Container>
-      <Button href="/logout">LOG OUT</Button>
+
 
       <Button onClick={() => setUserLocation()}>My Location</Button>
       {loading && <h1>Loading Parks</h1>}

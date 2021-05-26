@@ -14,6 +14,7 @@ class MapContainer extends Component {
 }
 
 
+
   render() {
     // console.log(this.props, " mapContainer delete Props");
     const userEmail = this.props.user.email;
@@ -31,6 +32,7 @@ class MapContainer extends Component {
         Welcome:{userEmail}
         </h1>
         <Button  href="/logout" onClick={() => this.props.deleteUser(user)}>DELETE USER</Button>
+        <Button href="/logout">LOG OUT</Button>
         <Map/>
 
       </div>
