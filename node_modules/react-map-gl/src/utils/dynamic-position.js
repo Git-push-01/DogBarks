@@ -1,5 +1,3 @@
-// @flow
-
 export const ANCHOR_POSITION = {
   top: {x: 0.5, y: 0},
   'top-left': {x: 0, y: 0},
@@ -11,25 +9,24 @@ export const ANCHOR_POSITION = {
   right: {x: 1, y: 0.5}
 };
 
-export type PositionType = $Keys<typeof ANCHOR_POSITION>;
-
 const ANCHOR_TYPES = Object.keys(ANCHOR_POSITION);
 
 /**
  * Calculate the dynamic position for a popup to fit in a container.
- * @param {Number} x - x position of the anchor on screen
- * @param {Number} y - y position of the anchor on screen
- * @param {Number} width - width of the container
- * @param {Number} height - height of the container
- * @param {Number} padding - extra space from the edge in pixels
- * @param {Number} selfWidth - width of the popup
- * @param {Number} selfHeight - height of the popup
- * @param {String} anchor - type of the anchor, one of 'top', 'bottom',
+ * @param {Object} opts
+ * @param {Number} opts.x - x position of the anchor on screen
+ * @param {Number} opts.y - y position of the anchor on screen
+ * @param {Number} opts.width - width of the container
+ * @param {Number} opts.height - height of the container
+ * @param {Number} opts.padding - extra space from the edge in pixels
+ * @param {Number} opts.selfWidth - width of the popup
+ * @param {Number} opts.selfHeight - height of the popup
+ * @param {String} opts.anchor - type of the anchor, one of 'top', 'bottom',
     'left', 'right', 'top-left', 'top-right', 'bottom-left' , and  'bottom-right'
  * @returns {String} position - one of 'top', 'bottom',
     'left', 'right', 'top-left', 'top-right', 'bottom-left' , and  'bottom-right'
  */
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity,max-statements
 export function getDynamicPosition({
   x,
   y,
@@ -39,41 +36,30 @@ export function getDynamicPosition({
   selfHeight,
   anchor,
   padding = 0
-}: {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  selfWidth: number,
-  selfHeight: number,
-  anchor: PositionType,
-  padding: number
-}): PositionType {
+}) {
   let {x: anchorX, y: anchorY} = ANCHOR_POSITION[anchor];
 
   // anchorY: top - 0, center - 0.5, bottom - 1
   let top = y - anchorY * selfHeight;
   let bottom = top + selfHeight;
-  // If needed, adjust anchorY at 0.5 step between [0, 1]
-  const yStep = 0.5;
+  let cutoffY = Math.max(0, padding - top) + Math.max(0, bottom - height + padding);
 
-  if (top < padding) {
-    // Top edge is outside, try move down
-    while (top < padding && anchorY >= yStep) {
-      anchorY -= yStep;
-      top += yStep * selfHeight;
+  if (cutoffY > 0) {
+    // Needs vertical adjustment
+    let bestAnchorY = anchorY;
+    let minCutoff = cutoffY;
+    // Test anchorY at 0.5 step between [0, 1]
+    for (anchorY = 0; anchorY <= 1; anchorY += 0.5) {
+      top = y - anchorY * selfHeight;
+      bottom = top + selfHeight;
+      cutoffY = Math.max(0, padding - top) + Math.max(0, bottom - height + padding);
+      if (cutoffY < minCutoff) {
+        minCutoff = cutoffY;
+        bestAnchorY = anchorY;
+      }
     }
-  } else if (bottom > height - padding) {
-    // bottom edge is outside, try move up
-    while (bottom > height - padding && anchorY <= 1 - yStep) {
-      anchorY += yStep;
-      bottom -= yStep * selfHeight;
-    }
+    anchorY = bestAnchorY;
   }
-
-  // anchorX: left - 0, center - 0.5, right - 1
-  let left = x - anchorX * selfWidth;
-  let right = left + selfWidth;
 
   // If needed, adjust anchorX at 0.5 step between [0, 1]
   let xStep = 0.5;
@@ -83,18 +69,26 @@ export function getDynamicPosition({
     xStep = 1;
   }
 
-  if (left < padding) {
-    // Left edge is outside, try move right
-    while (left < padding && anchorX >= xStep) {
-      anchorX -= xStep;
-      left += xStep * selfWidth;
+  // anchorX: left - 0, center - 0.5, right - 1
+  let left = x - anchorX * selfWidth;
+  let right = left + selfWidth;
+  let cutoffX = Math.max(0, padding - left) + Math.max(0, right - width + padding);
+
+  if (cutoffX > 0) {
+    // Needs horizontal adjustment
+    let bestAnchorX = anchorX;
+    let minCutoff = cutoffX;
+    // Test anchorX at xStep between [0, 1]
+    for (anchorX = 0; anchorX <= 1; anchorX += xStep) {
+      left = x - anchorX * selfWidth;
+      right = left + selfWidth;
+      cutoffX = Math.max(0, padding - left) + Math.max(0, right - width + padding);
+      if (cutoffX < minCutoff) {
+        minCutoff = cutoffX;
+        bestAnchorX = anchorX;
+      }
     }
-  } else if (right > width - padding) {
-    // Right edge is outside, try move left
-    while (right > width - padding && anchorX <= 1 - xStep) {
-      anchorX += xStep;
-      right -= xStep * selfWidth;
-    }
+    anchorX = bestAnchorX;
   }
 
   // Find the name of the new anchor position

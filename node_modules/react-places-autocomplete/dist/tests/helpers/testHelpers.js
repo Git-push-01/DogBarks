@@ -73,7 +73,7 @@ var mockSuggestions = exports.mockSuggestions = [{
 /**
  * Simulates User typing 'San Francisco' in input,
  * and getting results back from Google Maps API,
- * populating `suggesions` state.
+ * populating `suggestions` state.
  */
 var simulateSearch = exports.simulateSearch = function simulateSearch(wrapper) {
   var input = wrapper.find('input');

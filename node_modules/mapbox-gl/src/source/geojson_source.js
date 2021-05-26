@@ -138,12 +138,14 @@ class GeoJSONSource extends Evented implements Source {
                 maxZoom: options.clusterMaxZoom !== undefined ?
                     Math.min(options.clusterMaxZoom, this.maxzoom - 1) :
                     (this.maxzoom - 1),
+                minPoints: Math.max(2, options.clusterMinPoints || 2),
                 extent: EXTENT,
                 radius: (options.clusterRadius || 50) * scale,
                 log: false,
                 generateId: options.generateId || false
             },
-            clusterProperties: options.clusterProperties
+            clusterProperties: options.clusterProperties,
+            filter: options.filter
         }, options.workerOptions);
     }
 

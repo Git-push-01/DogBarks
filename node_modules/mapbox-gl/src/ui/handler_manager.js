@@ -104,7 +104,6 @@ class HandlerManager {
     _updatingCamera: boolean;
     _changes: Array<[HandlerResult, Object, any]>;
     _previousActiveHandlers: { [string]: Handler };
-    _bearingChanged: boolean;
     _listeners: Array<[HTMLElement, string, void | {passive?: boolean, capture?: boolean}]>;
 
     constructor(map: Map, options: { interactive: boolean, pitchWithRotate: boolean, clickTolerance: number, bearingSnap: number}) {
@@ -128,12 +127,14 @@ class HandlerManager {
         const el = this._el;
 
         this._listeners = [
-            // Bind touchstart and touchmove with passive: false because, even though
-            // they only fire a map events and therefore could theoretically be
-            // passive, binding with passive: true causes iOS not to respect
-            // e.preventDefault() in _other_ handlers, even if they are non-passive
-            // (see https://bugs.webkit.org/show_bug.cgi?id=184251)
-            [el, 'touchstart', {passive: false}],
+            // This needs to be `passive: true` so that a double tap fires two
+            // pairs of touchstart/end events in iOS Safari 13. If this is set to
+            // `passive: false` then the second pair of events is only fired if
+            // preventDefault() is called on the first touchstart. Calling preventDefault()
+            // undesirably prevents click events.
+            [el, 'touchstart', {passive: true}],
+            // This needs to be `passive: false` so that scrolls and pinches can be
+            // prevented in browsers that don't support `touch-actions: none`, for example iOS Safari 12.
             [el, 'touchmove', {passive: false}],
             [el, 'touchend', undefined],
             [el, 'touchcancel', undefined],
@@ -233,7 +234,7 @@ class HandlerManager {
         this._handlersById[handlerName] = handler;
     }
 
-    stop() {
+    stop(allowEndAnimation: boolean) {
         // do nothing if this method was triggered by a gesture update
         if (this._updatingCamera) return;
 
@@ -241,7 +242,7 @@ class HandlerManager {
             handler.reset();
         }
         this._inertia.clear();
-        this._fireEvents({}, {});
+        this._fireEvents({}, {}, allowEndAnimation);
         this._changes = [];
     }
 
@@ -291,7 +292,7 @@ class HandlerManager {
     handleEvent(e: InputEvent | RenderFrameEvent, eventName?: string) {
 
         if (e.type === 'blur') {
-            this.stop();
+            this.stop(true);
             return;
         }
 
@@ -356,7 +357,7 @@ class HandlerManager {
         const {cameraAnimation} = mergedHandlerResult;
         if (cameraAnimation) {
             this._inertia.clear();
-            this._fireEvents({}, {});
+            this._fireEvents({}, {}, true);
             this._changes = [];
             cameraAnimation(this._map);
         }
@@ -414,7 +415,7 @@ class HandlerManager {
         const tr = map.transform;
 
         if (!hasChange(combinedResult)) {
-            return this._fireEvents(combinedEventsInProgress, deactivatedHandlers);
+            return this._fireEvents(combinedEventsInProgress, deactivatedHandlers, true);
         }
 
         let {panDelta, zoomDelta, bearingDelta, pitchDelta, around, pinchAround} = combinedResult;
@@ -435,11 +436,11 @@ class HandlerManager {
 
         this._map._update();
         if (!combinedResult.noInertia) this._inertia.record(combinedResult);
-        this._fireEvents(combinedEventsInProgress, deactivatedHandlers);
+        this._fireEvents(combinedEventsInProgress, deactivatedHandlers, true);
 
     }
 
-    _fireEvents(newEventsInProgress: { [string]: Object }, deactivatedHandlers: Object) {
+    _fireEvents(newEventsInProgress: { [string]: Object }, deactivatedHandlers: Object, allowEndAnimation: boolean) {
 
         const wasMoving = isMoving(this._eventsInProgress);
         const nowMoving = isMoving(newEventsInProgress);
@@ -462,8 +463,6 @@ class HandlerManager {
         for (const name in startEvents) {
             this._fireEvent(name, startEvents[name]);
         }
-
-        if (newEventsInProgress.rotate) this._bearingChanged = true;
 
         if (nowMoving) {
             this._fireEvent('move', nowMoving.originalEvent);
@@ -491,7 +490,7 @@ class HandlerManager {
         }
 
         const stillMoving = isMoving(this._eventsInProgress);
-        if ((wasMoving || nowMoving) && !stillMoving) {
+        if (allowEndAnimation && (wasMoving || nowMoving) && !stillMoving) {
             this._updatingCamera = true;
             const inertialEase = this._inertia._onMoveEnd(this._map.dragPan._inertiaOptions);
 
@@ -508,7 +507,6 @@ class HandlerManager {
                     this._map.resetNorth();
                 }
             }
-            this._bearingChanged = false;
             this._updatingCamera = false;
         }
 
@@ -518,13 +516,18 @@ class HandlerManager {
         this._map.fire(new Event(type, e ? {originalEvent: e} : {}));
     }
 
+    _requestFrame() {
+        this._map.triggerRepaint();
+        return this._map._renderTaskQueue.add(timeStamp => {
+            delete this._frameId;
+            this.handleEvent(new RenderFrameEvent('renderFrame', {timeStamp}));
+            this._applyChanges();
+        });
+    }
+
     _triggerRenderFrame() {
         if (this._frameId === undefined) {
-            this._frameId = this._map._requestRenderFrame(timeStamp => {
-                delete this._frameId;
-                this.handleEvent(new RenderFrameEvent('renderFrame', {timeStamp}));
-                this._applyChanges();
-            });
+            this._frameId = this._requestFrame();
         }
     }
 

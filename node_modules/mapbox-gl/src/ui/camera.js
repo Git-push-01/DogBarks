@@ -121,7 +121,6 @@ class Camera extends Evented {
     _padding: boolean;
 
     _bearingSnap: number;
-    _easeEndTimeoutID: TimeoutID;
     _easeStart: number;
     _easeOptions: {duration: number, easing: (_: number) => number};
     _easeId: string | void;
@@ -321,7 +320,7 @@ class Camera extends Evented {
     }
 
     /**
-     * Returns the map's current bearing. The bearing is the compass direction that is \"up\"; for example, a bearing
+     * Returns the map's current bearing. The bearing is the compass direction that is "up"; for example, a bearing
      * of 90° orients the map so that east is up.
      *
      * @memberof Map#
@@ -331,7 +330,7 @@ class Camera extends Evented {
     getBearing(): number { return this.transform.bearing; }
 
     /**
-     * Sets the map's bearing (rotation). The bearing is the compass direction that is \"up\"; for example, a bearing
+     * Sets the map's bearing (rotation). The bearing is the compass direction that is "up"; for example, a bearing
      * of 90° orients the map so that east is up.
      *
      * Equivalent to `jumpTo({bearing: bearing})`.
@@ -477,9 +476,10 @@ class Camera extends Evented {
      * @memberof Map#
      * @param {LngLatBoundsLike} bounds Calculate the center for these bounds in the viewport and use
      *      the highest zoom level up to and including `Map#getMaxZoom()` that fits
-     *      in the viewport. LatLngBounds represent a box that is always axis-aligned with bearing 0.
+     *      in the viewport. LngLatBounds represent a box that is always axis-aligned with bearing 0.
      * @param options Options object
      * @param {number | PaddingOptions} [options.padding] The amount of padding in pixels to add to the given bounds.
+     * @param {number} [options.bearing=0] Desired map bearing at end of animation, in degrees.
      * @param {PointLike} [options.offset=[0, 0]] The center of the given bounds relative to the map's center, measured in pixels.
      * @param {number} [options.maxZoom] The maximum zoom level to allow when the camera would transition to the specified bounds.
      * @returns {CameraOptions | void} If map is able to fit to provided bounds, returns `CameraOptions` with
@@ -492,7 +492,8 @@ class Camera extends Evented {
      */
     cameraForBounds(bounds: LngLatBoundsLike, options?: CameraOptions): void | CameraOptions & AnimationOptions {
         bounds = LngLatBounds.convert(bounds);
-        return this._cameraForBoxAndBearing(bounds.getNorthWest(), bounds.getSouthEast(), 0, options);
+        const bearing = options && options.bearing || 0;
+        return this._cameraForBoxAndBearing(bounds.getNorthWest(), bounds.getSouthEast(), bearing, options);
     }
 
     /**
@@ -570,10 +571,12 @@ class Camera extends Evented {
         const zoom = Math.min(tr.scaleZoom(tr.scale * Math.min(scaleX, scaleY)), options.maxZoom);
 
         // Calculate center: apply the zoom, the configured offset, as well as offset that exists as a result of padding.
-        const offset = Point.convert(options.offset);
+        const offset = (typeof options.offset.x === 'number') ? new Point(options.offset.x, options.offset.y) : Point.convert(options.offset);
         const paddingOffsetX = (options.padding.left - options.padding.right) / 2;
         const paddingOffsetY = (options.padding.top - options.padding.bottom) / 2;
-        const offsetAtInitialZoom = new Point(offset.x + paddingOffsetX, offset.y + paddingOffsetY);
+        const paddingOffset = new Point(paddingOffsetX, paddingOffsetY);
+        const rotatedPaddingOffset = paddingOffset.rotate(bearing * Math.PI / 180);
+        const offsetAtInitialZoom = offset.add(rotatedPaddingOffset);
         const offsetAtFinalZoom = offsetAtInitialZoom.mult(tr.scale / tr.zoomScale(zoom));
 
         const center =  tr.unproject(p0world.add(p1world).div(2).sub(offsetAtFinalZoom));
@@ -645,7 +648,7 @@ class Camera extends Evented {
      * map.fitScreenCoordinates(p0, p1, map.getBearing(), {
      *   padding: {top: 10, bottom:25, left: 15, right: 5}
      * });
-     * @see [Used by BoxZoomHandler](https://www.mapbox.com/mapbox-gl-js/api/#boxzoomhandler)
+     * @see Used by {@link BoxZoomHandler}
      */
     fitScreenCoordinates(p0: PointLike, p1: PointLike, bearing: number, options?: AnimationOptions & CameraOptions, eventData?: Object) {
         return this._fitInternal(
@@ -759,13 +762,13 @@ class Camera extends Evented {
     }
 
     /**
-     * Changes any combination of center, zoom, bearing, pitch, and padding with an animated transition
+     * Changes any combination of `center`, `zoom`, `bearing`, `pitch`, and `padding` with an animated transition
      * between old and new values. The map will retain its current values for any
      * details not specified in `options`.
      *
      * Note: The transition will happen instantly if the user has enabled
      * the `reduced motion` accesibility feature enabled in their operating system,
-     * unless 'options' includes `essential: true`.
+     * unless `options` includes `essential: true`.
      *
      * @memberof Map#
      * @param options Options describing the destination and animation of the transition.
@@ -837,8 +840,6 @@ class Camera extends Evented {
 
         this._easeId = options.easeId;
         this._prepareEase(eventData, options.noMoveStart, currently);
-
-        clearTimeout(this._easeEndTimeoutID);
 
         this._ease((k) => {
             if (this._zooming) {
@@ -1185,7 +1186,7 @@ class Camera extends Evented {
         }
         if (!allowGestures) {
             const handlers = (this: any).handlers;
-            if (handlers) handlers.stop();
+            if (handlers) handlers.stop(false);
         }
         return this;
     }

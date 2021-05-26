@@ -25,7 +25,7 @@ var pick = exports.pick = function pick(obj) {
   }
 
   return props.reduce(function (newObj, prop) {
-    if (obj.hasOwnProperty(prop)) {
+    if (obj && obj.hasOwnProperty(prop)) {
       newObj[prop] = obj[prop];
     }
     return newObj;
